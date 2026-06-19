@@ -1,4 +1,5 @@
-[Uploading 🎓 CampusVerse AI.md…]()
+[🎓 CampusVerse AI.md](https://github.com/user-attachments/files/29151959/CampusVerse.AI.md)
+
 # 🎓 CampusVerse AI
 
 ## Transformando la experiencia educativa mediante IA, analítica de datos y gamificación
@@ -402,3 +403,31 @@ Hackathon de Innovación Educativa basada en Inteligencia Artificial.
 ## 🌟 CampusVerse AI
 
 *"Transformando datos en experiencias educativas inteligentes."*
+
+![]( https://i.ibb.co/WNsFf5fc/Captura-de-pantalla-2026-06-19-164741.png)
+
+ https://i.ibb.co/WNsFf5fc/Captura-de-pantalla-2026-06-19-164741.png
+
+![]( https://i.ibb.co/WNsFf5fc/Captura-de-pantalla-2026-06-19-164741.png)
+
+![](https://i.ibb.co/VWb40s5C/Captura-de-pantalla-2026-06-19-164734.png)
+
+![](https://i.ibb.co/ccPhvGN9/Captura-de-pantalla-2026-06-19-164749.png)
+
+![](https://i.ibb.co/KxBVgGWy/Captura-de-pantalla-2026-06-19-164759.png)
+
+![](https://i.ibb.co/qMs7MgDH/Captura-de-pantalla-2026-06-19-164807.png)
+
+![](https://i.ibb.co/qMs7MgDH/Captura-de-pantalla-2026-06-19-164807.png)
+
+![](https://i.ibb.co/G3d2M7BC/Captura-de-pantalla-2026-06-19-164816.png)
+
+![](https://i.ibb.co/WNcL9ChV/Captura-de-pantalla-2026-06-19-164820.png)
+
+https://i.ibb.co/prfcgNPX/Captura-de-pantalla-2026-06-19-164824.png
+
+https://i.ibb.co/xTX9YfV/Captura-de-pantalla-2026-06-19-164833.png
+
+https://i.ibb.co/bRmf9Y1Q/Captura-de-pantalla-2026-06-19-164844.png
+
+https://i.ibb.co/FLyqFP6J/Captura-de-pantalla-2026-06-19-164853.png
