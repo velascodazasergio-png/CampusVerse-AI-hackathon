@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CampusVerse AI — El Campus del Futuro</title>
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- AOS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet" />
+
+  <!-- Three.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <!-- GSAP -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <!-- AOS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+  <!-- Particles.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════ NAV ══════════════════════════════════════════ -->
+<nav id="navbar">
+  <div class="nav-inner">
+    <div class="nav-logo">
+      <span class="logo-bracket">[</span>
+      <span class="logo-text">CV<span class="logo-accent">AI</span></span>
+      <span class="logo-bracket">]</span>
+    </div>
+    <ul class="nav-links">
+      <li><a href="#about">Proyecto</a></li>
+      <li><a href="#features">Funciones</a></li>
+      <li><a href="#mentor">Mentor IA</a></li>
+      <li><a href="#missions">Misiones</a></li>
+      <li><a href="#team">Equipo</a></li>
+    </ul>
+    <a href="#hero" class="nav-cta">Ingresar</a>
+    <button class="hamburger" id="hamburger" aria-label="Menú">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- ══════════════════════════════════════════ HERO ══════════════════════════════════════════ -->
+<section id="hero">
+  <div id="particles-js"></div>
+  <canvas id="hero-canvas"></canvas>
+
+  <div class="hero-content">
+    <div class="hero-eyebrow" data-aos="fade-down" data-aos-duration="800">
+      <span class="dot pulse"></span> HACKATHON CAMPUSLANDS 2026
+    </div>
+    <h1 class="hero-title" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="100">
+      CAMPUS<span class="hero-accent">VERSE</span> AI
+    </h1>
+    <p class="hero-sub" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="250">
+      Explora Campuslands desde cualquier lugar del mundo mediante<br/>
+      una experiencia virtual impulsada por Inteligencia Artificial.
+    </p>
+    <div class="hero-buttons" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="400">
+      <a href="#about" class="btn-primary">Explorar Proyecto</a>
+      <a href="#virtual-tour" class="btn-ghost">
+        <span class="btn-icon">▶</span> Ingresar al Mundo Virtual
+      </a>
+    </div>
+    <div class="hero-scan-line"></div>
+  </div>
+
+  <div class="hero-robot-wrap" id="robot-wrap">
+    <div class="robot-hologram-ring"></div>
+    <div class="robot-hologram-ring ring-2"></div>
+    <canvas id="robot-canvas"></canvas>
+    <div class="robot-label">
+      <span class="mono">MENTOR_AI_v2.6</span>
+      <span class="robot-status"><span class="dot green"></span>ONLINE</span>
+    </div>
+  </div>
+
+  <div class="hero-scroll-hint">
+    <span class="mono">SCROLL</span>
+    <div class="scroll-arrow"></div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════ STATS ══════════════════════════════════════════ -->
+<section id="stats">
+  <div class="container">
+    <div class="stats-grid">
+      <div class="stat-card" data-aos="fade-up" data-aos-delay="0">
+        <span class="stat-num" data-target="500">0</span><span class="stat-plus">+</span>
+        <p>Visitantes Virtuales</p>
+      </div>
+      <div class="stat-card" data-aos="fade-up" data-aos-delay="100">
+        <span class="stat-num" data-target="100">0</span><span class="stat-plus">+</span>
+        <p>Horas Exploradas</p>
+      </div>
+      <div class="stat-card" data-aos="fade-up" data-aos-delay="200">
+        <span class="stat-num" data-target="50">0</span><span class="stat-plus">+</span>
+        <p>Proyectos Descubiertos</p>
+      </div>
+      <div class="stat-card" data-aos="fade-up" data-aos-delay="300">
+        <span class="stat-num" data-target="95">0</span><span class="stat-plus">%</span>
+        <p>Satisfacción</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════ ABOUT ══════════════════════════════════════════ -->
+<section id="about">
+  <div class="container">
+    <div class="section-header" data-aos="fade-up">
+      <span class="section-eyebrow mono">// 001 — SOBRE EL PROYECTO</span>
+      <h2>¿Qué es <span class="accent">CampusVerse AI</span>?</h2>
+      <p class="section-desc">Una convergencia de tecnologías para reinventar cómo se descubre la educación.</p>
+    </div>
+
+    <div class="about-grid">
+      <div class="about-text" data-aos="fade-right">
+        <p>CampusVerse AI es una plataforma inmersiva que fusiona el poder de <strong>Roblox</strong> como entorno 3D con capas de <strong>Inteligencia Artificial</strong>, analítica en tiempo real y gamificación para crear una experiencia educativa sin precedentes.</p>
+        <p>Estudiantes, aspirantes y visitantes pueden recorrer el campus digital, recibir orientación de un Mentor IA y descubrir oportunidades académicas desde cualquier rincón del planeta.</p>
+        <div class="about-tags">
+          <span class="tag">Roblox Studio</span>
+          <span class="tag">IA Generativa</span>
+          <span class="tag">Analítica</span>
+          <span class="tag">Gamificación</span>
+          <span class="tag">Educación</span>
+        </div>
+      </div>
+
+      <div class="about-cards" data-aos="fade-left">
+        <div class="about-card">
+          <div class="about-card-icon">🎮</div>
+          <h4>Roblox</h4>
+          <p>Campus virtual 3D accesible desde cualquier dispositivo.</p>
+        </div>
+        <div class="about-card">
+          <div class="about-card-icon">🤖</div>
+          <h4>Inteligencia Artificial</h4>
+          <p>Mentor IA personalizado que guía cada experiencia.</p>
+        </div>
+        <div class="about-card">
+          <div class="about-card-icon">📊</div>
+          <h4>Analítica</h4>
+          <p>Dashboard de datos en tiempo real sobre comportamiento.</p>
+        </div>
+        <div class="about-card">
+          <div class="about-card-icon">🏆</div>
+          <h4>Gamificación</h4>
+          <p>Sistema de misiones, logros e insignias motivacionales.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════ VIRTUAL TOUR ══════════════════════════════════════════ -->
+<section id="virtual-tour">
+  <div class="container">
+    <div class="section-header" data-aos="fade-up">
+      <span class="section-eyebrow mono">// 002 — RECORRIDO VIRTUAL</span>
+      <h2>Explora el <span class="accent">Campus Digital</span></h2>
+    </div>
+
+    <div class="tour-gallery" data-aos="fade-up">
+      <div class="tour-card main-card">
+        <div class="tour-card-img" style="background: linear-gradient(135deg, #0d1b2a 0%, #1a0533 100%);">
+          <div class="tour-placeholder-icon">🏛️</div>
+          <div class="tour-overlay">
+            <span class="tour-zone">ZONA CENTRAL</span>
+            <span class="tour-badge">ÁREA PRINCIPAL</span>
+          </div>
+        </div>
+        <div class="tour-card-info">
+          <h4>Hall Principal</h4>
+          <p>Punto de partida del campus virtual</p>
+        </div>
+      </div>
+
+      <div class="tour-card">
+        <div class="tour-card-img" style="background: linear-gradient(135deg, #001a33 0%, #003366 100%);">
+          <div class="tour-placeholder-icon">🧬</div>
+          <div class="tour-overlay">
+            <span class="tour-zone">LAB IA</span>
+          </div>
+        </div>
+        <div class="tour-card-info"><h4>Laboratorio IA</h4><p>Experimenta con modelos de IA</p></div>
+      </div>
+
+      <div class="tour-card">
+        <div class="tour-card-img" style="background: linear-gradient(135deg, #0a001a 0%, #2d0050 100%);">
+          <div class="tour-placeholder-icon">💻</div>
+          <div class="tour-overlay"><span class="tour-zone">DEV HUB</span></div>
+        </div>
+        <div class="tour-card-info"><h4>Dev Hub</h4><p>Zona de desarrollo y código</p></div>
+      </div>
+
+      <div class="tour-card">
+        <div class="tour-card-img" style="background: linear-gradient(135deg, #001a1a 0%, #004444 100%);">
+          <div class="tour-placeholder-icon">🎨</div>
+          <div class="tour-overlay"><span class="tour-zone">DISEÑO</span></div>
+        </div>
+        <div class="tour-card-info"><h4>Studio Creativo</h4><p>Diseño UX/UI y experiencias</p></div>
+      </div>
+
+      <div class="tour-card">
+        <div class="tour-card-img" style="background: linear-gradient(135deg, #1a1a00 0%, #3a3a00 100%);">
+          <div class="tour-placeholder-icon">📡</div>
+          <div class="tour-overlay"><span class="tour-zone">INNOVA</span></div>
+        </div>
+        <div class="tour-card-info"><h4>Innovation Hub</h4><p>Proyectos del futuro</p></div>
+      </div>
+    </div>
+
+    <div class="tour-map" data-aos="fade-up">
+      <div class="map-label mono">// MAPA_VIRTUAL_v1.0</div>
+      <div class="campus-map">
+        <div class="map-node central" title="Hall Principal">🏛️<span>Hall</span></div>
+        <div class="map-node n1" title="Lab IA">🧬<span>IA</span></div>
+        <div class="map-node n2" title="Dev Hub">💻<span>Dev</span></div>
+        <div class="map-node n3" title="Studio">🎨<span>Studio</span></div>
+        <div class="map-node n4" title="Innovación">📡<span>Innova</span></div>
+        <div class="map-node n5" title="Datos">📊<span>Data</span></div>
+        <svg class="map-lines" viewBox="0 0 400 300">
+          <line x1="200" y1="150" x2="100" y2="80" stroke="#00d4ff" stroke-width="1" stroke-dasharray="4"/>
+          <line x1="200" y1="150" x2="300" y2="80" stroke="#00d4ff" stroke-width="1" stroke-dasharray="4"/>
+          <line x1="200" y1="150" x2="80" y2="200" stroke="#00d4ff" stroke-width="1" stroke-dasharray="4"/>
+          <line x1="200" y1="150" x2="320" y2="200" stroke="#00d4ff" stroke-width="1" stroke-dasharray="4"/>
+          <line x1="200" y1="150" x2="200" y2="260" stroke="#00d4ff" stroke-width="1" stroke-dasharray="4"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════ FEATURES ══════════════════════════════════════════ -->
+<section id="features">
+  <div class="container">
+    <div class="section-header" data-aos="fade-up">
+      <span class="section-eyebrow mono">// 003 — FUNCIONALIDADES</span>
+      <h2>Tecnología que <span class="accent">transforma</span> la educación</h2>
+    </div>
+
+    <div class="features-grid">
+      <div class="feature-card" data-aos="fade-up" data-aos-delay="0">
+        <div class="feature-icon">🌐</div>
+        <h3>Recorrido Virtual en Roblox</h3>
+        <p>Explora cada rincón del campus en 3D desde cualquier dispositivo, en tiempo real.</p>
+        <div class="feature-line"></div>
+      </div>
+      <div class="feature-card" data-aos="fade-up" data-aos-delay="80">
+        <div class="feature-icon">🤖</div>
+        <h3>Mentor IA</h3>
+        <p>Asistente inteligente que responde preguntas y personaliza tu ruta de aprendizaje.</p>
+        <div class="feature-line"></div>
+      </div>
+      <div class="feature-card" data-aos="fade-up" data-aos-delay="160">
+        <div class="feature-icon">🎯</div>
+        <h3>Recomendador Inteligente</h3>
+        <p>Sistema que sugiere áreas, programas y rutas académicas según tu perfil.</p>
+        <div class="feature-line"></div>
+      </div>
+      <div class="feature-card" data-aos="fade-up" data-aos-delay="240">
+        <div class="feature-icon">🏆</div>
+        <h3>Sistema de Misiones</h3>
+        <p>Logros, recompensas e insignias que hacen del aprendizaje una aventura.</p>
+        <div class="feature-line"></div>
+      </div>
+      <div class="feature-card" data-aos="fade-up" data-aos-delay="320">
+        <div class="feature-icon">📊</div>
+        <h3>Dashboard de Analítica</h3>
+        <p>Visualización de datos en tiempo real sobre comportamiento e interés de usuarios.</p>
+        <div class="feature-line"></div>
+      </div>
+      <div class="feature-card" data-aos="fade-up" data-aos-delay="400">
+        <div class="feature-icon">✨</div>
+        <h3>Experiencia Inmersiva</h3>
+        <p>Entorno holográfico, sonido espacial y narrativa educativa integrada.</p>
+        <div class="feature-line"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════ MENTOR IA ══════════════════════════════════════════ -->
+<section id="mentor">
+  <div class="container">
+    <div class="mentor-layout">
+      <div class="mentor-info" data-aos="fade-right">
+        <span class="section-eyebrow mono">// 004 — MENTOR IA</span>
+        <h2>Tu guía <span class="accent">inteligente</span> en el campus</h2>
+        <p>El Mentor IA analiza tu perfil, responde tus preguntas y te orienta a través del campus virtual con recomendaciones personalizadas en tiempo real.</p>
+        <ul class="mentor-features">
+          <li><span class="check">✓</span> Respuestas instantáneas 24/7</li>
+          <li><span class="check">✓</span> Recomendaciones personalizadas</li>
+          <li><span class="check">✓</span> Guía por zonas del campus</li>
+          <li><span class="check">✓</span> Análisis de perfil académico</li>
+        </ul>
+      </div>
+
+      <div class="mentor-chat" data-aos="fade-left">
+        <div class="chat-header">
+          <div class="chat-avatar">🤖</div>
+          <div>
+            <div class="chat-name">Mentor IA</div>
+            <div class="chat-status"><span class="dot green"></span> En línea — Procesando</div>
+          </div>
+          <div class="chat-signal">
+            <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+          </div>
+        </div>
+
+        <div class="chat-body" id="chat-body">
+          <div class="chat-msg bot">
+            <span class="msg-icon">🤖</span>
+            <div class="bubble">¡Hola! Soy tu Mentor IA. ¿Qué deseas explorar hoy en CampusVerse?</div>
+          </div>
+        </div>
+
+        <div class="chat-suggestions">
+          <button class="suggest-btn" onclick="sendSuggestion(this)">¿Dónde puedo aprender IA?</button>
+          <button class="suggest-btn" onclick="sendSuggestion(this)">¿Qué programas ofrecen?</button>
+          <button class="suggest-btn" onclick="sendSuggestion(this)">Recórrenos el campus</button>
+        </div>
+
+        <div class="chat-input-row">
+          <input type="text" id="chat-input" placeholder="Escribe tu pregunta..." />
+          <button id="chat-send" onclick="handleChatSend()">▶</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════ MISSIONS ══════════════════════════════════════════ -->
+<section id="missions">
+  <div class="container">
+    <div class="section-header" data-aos="fade-up">
+      <span class="section-eyebrow mono">// 005 — SISTEMA DE MISIONES</span>
+      <h2>Desbloquea <span class="accent">logros</span> en tu aventura</h2>
+    </div>
+
+    <div class="missions-grid">
+      <div class="mission-card unlocked" data-aos="fade-up" data-aos-delay="0">
+        <div class="mission-badge">🏆</div>
+        <div class="mission-rarity">EXPLORADOR</div>
+        <h4>Explorador Campuslands</h4>
+        <p>Recorre todas las zonas del campus virtual por primera vez.</p>
+        <div class="mission-xp">+250 XP</div>
+        <div class="mission-progress"><div class="progress-bar" style="width:100%"></div></div>
+        <span class="mission-status unlocked-label">✓ DESBLOQUEADO</span>
+      </div>
+
+      <div class="mission-card unlocked" data-aos="fade-up" data-aos-delay="100">
+        <div class="mission-badge">🔍</div>
+        <div class="mission-rarity rare">RARO</div>
+        <h4>AI Hunter</h4>
+        <p>Interactúa con el Mentor IA más de 10 veces en una sesión.</p>
+        <div class="mission-xp">+500 XP</div>
+        <div class="mission-progress"><div class="progress-bar" style="width:70%"></div></div>
+        <span class="mission-status">7/10 INTERACCIONES</span>
+      </div>
+
+      <div class="mission-card" data-aos="fade-up" data-aos-delay="200">
+        <div class="mission-badge">⚡</div>
+        <div class="mission-rarity epic">ÉPICO</div>
+        <h4>Future Developer</h4>
+        <p>Completa todas las misiones del Hub de Desarrollo.</p>
+        <div class="mission-xp">+1000 XP</div>
+        <div class="mission-progress"><div class="progress-bar" style="width:30%"></div></div>
+        <span class="mission-status">3/10 MISIONES</span>
+      </div>
+
+      <div class="mission-card" data-aos="fade-up" data-aos-delay="300">
+        <div class="mission-badge">👑</div>
+        <div class="mission-rarity legendary">LEGENDARIO</div>
+        <h4>Innovation Master</h4>
+        <p>Descubre todos los secretos ocultos del Campus Virtual.</p>
+        <div class="mission-xp">+2500 XP</div>
+        <div class="mission-progress"><div class="progress-bar" style="width:10%"></div></div>
+        <span class="mission-status">BLOQUEADO</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════ DASHBOARD ══════════════════════════════════════════ -->
+<section id="dashboard">
+  <div class="container">
+    <div class="section-header" data-aos="fade-up">
+      <span class="section-eyebrow mono">// 006 — ANALÍTICA INTELIGENTE</span>
+      <h2>Dashboard de <span class="accent">Datos</span> en Tiempo Real</h2>
+    </div>
+
+    <div class="dashboard-wrap" data-aos="fade-up">
+      <div class="dash-sidebar">
+        <div class="dash-logo mono">[CVAI]</div>
+        <ul class="dash-nav">
+          <li class="active">📊 Overview</li>
+          <li>🗺️ Zonas</li>
+          <li>👥 Usuarios</li>
+          <li>🔥 Tendencias</li>
+          <li>⚙️ Config</li>
+        </ul>
+        <div class="dash-status">
+          <span class="dot green"></span><span class="mono">LIVE</span>
+        </div>
+      </div>
+
+      <div class="dash-main">
+        <div class="dash-kpis">
+          <div class="kpi"><span class="kpi-val" id="kpi1">247</span><span class="kpi-lbl">Usuarios Activos</span></div>
+          <div class="kpi"><span class="kpi-val" id="kpi2">1.8h</span><span class="kpi-lbl">Tiempo Promedio</span></div>
+          <div class="kpi"><span class="kpi-val" id="kpi3">94%</span><span class="kpi-lbl">Satisfacción</span></div>
+          <div class="kpi"><span class="kpi-val" id="kpi4">38</span><span class="kpi-lbl">Misiones Completadas</span></div>
+        </div>
+
+        <div class="dash-charts">
+          <div class="chart-card">
+            <div class="chart-title">Áreas más visitadas</div>
+            <div class="bar-chart">
+              <div class="bar-row"><span class="bar-lbl">Lab IA</span><div class="bar-track"><div class="bar-fill" style="width:88%">88%</div></div></div>
+              <div class="bar-row"><span class="bar-lbl">Dev Hub</span><div class="bar-track"><div class="bar-fill cyan" style="width:74%">74%</div></div></div>
+              <div class="bar-row"><span class="bar-lbl">Hall</span><div class="bar-track"><div class="bar-fill purple" style="width:65%">65%</div></div></div>
+              <div class="bar-row"><span class="bar-lbl">Studio</span><div class="bar-track"><div class="bar-fill pink" style="width:52%">52%</div></div></div>
+              <div class="bar-row"><span class="bar-lbl">Innova</span><div class="bar-track"><div class="bar-fill gold" style="width:41%">41%</div></div></div>
+            </div>
+          </div>
+
+          <div class="chart-card">
+            <div class="chart-title">Tecnologías favoritas</div>
+            <div class="donut-wrap">
+              <canvas id="donutChart" width="160" height="160"></canvas>
+              <div class="donut-legend">
+                <div><span class="dot" style="background:#00d4ff"></span> IA — 38%</div>
+                <div><span class="dot" style="background:#8b5cf6"></span> Roblox — 27%</div>
+                <div><span class="dot" style="background:#06d6a0"></span> Data — 20%</div>
+                <div><span class="dot" style="background:#f59e0b"></span> UX — 15%</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="dash-activity">
+          <div class="chart-title">Actividad en vivo</div>
+          <canvas id="lineChart" width="100%" height="60"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════ TIMELINE ══════════════════════════════════════════ -->
+<section id="timeline">
+  <div class="container">
+    <div class="section-header" data-aos="fade-up">
+      <span class="section-eyebrow mono">// 007 — ROADMAP</span>
+      <h2>Del concepto al <span class="accent">metaverso</span></h2>
+    </div>
+
+    <div class="timeline-track" data-aos="fade-up">
+      <div class="tl-item" data-aos="fade-up" data-aos-delay="0">
+        <div class="tl-node done">✓</div>
+        <div class="tl-content">
+          <div class="tl-phase mono">FASE 01</div>
+          <h4>Investigación</h4>
+          <p>Análisis de necesidades, benchmarking y definición de arquitectura.</p>
+          <span class="tl-tag">COMPLETADO</span>
+        </div>
+      </div>
+      <div class="tl-item" data-aos="fade-up" data-aos-delay="80">
+        <div class="tl-node done">✓</div>
+        <div class="tl-content">
+          <div class="tl-phase mono">FASE 02</div>
+          <h4>Diseño UX/UI</h4>
+          <p>Wireframes, prototipos y sistema visual de la plataforma.</p>
+          <span class="tl-tag">COMPLETADO</span>
+        </div>
+      </div>
+      <div class="tl-item" data-aos="fade-up" data-aos-delay="160">
+        <div class="tl-node done">✓</div>
+        <div class="tl-content">
+          <div class="tl-phase mono">FASE 03</div>
+          <h4>Desarrollo Roblox</h4>
+          <p>Construcción del campus virtual 3D en Roblox Studio.</p>
+          <span class="tl-tag">COMPLETADO</span>
+        </div>
+      </div>
+      <div class="tl-item active" data-aos="fade-up" data-aos-delay="240">
+        <div class="tl-node active-node">◉</div>
+        <div class="tl-content">
+          <div class="tl-phase mono">FASE 04</div>
+          <h4>Integración IA</h4>
+          <p>Implementación del Mentor IA y sistema de recomendaciones.</p>
+          <span class="tl-tag active-tag">EN CURSO</span>
+        </div>
+      </div>
+      <div class="tl-item" data-aos="fade-up" data-aos-delay="320">
+        <div class="tl-node pending">○</div>
+        <div class="tl-content">
+          <div class="tl-phase mono">FASE 05</div>
+          <h4>Analítica</h4>
+          <p>Dashboard de métricas y sistema de visualización de datos.</p>
+          <span class="tl-tag pending-tag">PRÓXIMO</span>
+        </div>
+      </div>
+      <div class="tl-item" data-aos="fade-up" data-aos-delay="400">
+        <div class="tl-node pending">○</div>
+        <div class="tl-content">
+          <div class="tl-phase mono">FASE 06</div>
+          <h4>Lanzamiento</h4>
+          <p>Despliegue público y presentación en Hackathon Campuslands.</p>
+          <span class="tl-tag pending-tag">2026</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════ TEAM ══════════════════════════════════════════ -->
+<section id="team">
+  <div class="container">
+    <div class="section-header" data-aos="fade-up">
+      <span class="section-eyebrow mono">// 008 — EQUIPO</span>
+      <h2>Las mentes detrás del <span class="accent">futuro</span></h2>
+    </div>
+
+    <div class="team-grid">
+
+      <div class="team-card" data-aos="fade-up" data-aos-delay="0">
+        <div class="team-avatar-wrap">
+          <div class="team-avatar">SV</div>
+          <div class="team-avatar-ring"></div>
+        </div>
+        <h4>Sergio Velasco Daza</h4>
+        <span class="team-role">Frontend Developer &amp; UX Designer</span>
+        <p>Especialista en desarrollo frontend, diseño de interfaces modernas y experiencias digitales inmersivas. Arquitecto visual de CampusVerse AI.</p>
+        <div class="team-skills">
+          <span>HTML/CSS</span><span>Three.js</span><span>UX</span>
+        </div>
+        <div class="team-socials">
+          <a href="#" title="GitHub">⌥</a>
+          <a href="#" title="LinkedIn">in</a>
+        </div>
+      </div>
+
+      <div class="team-card" data-aos="fade-up" data-aos-delay="100">
+        <div class="team-avatar-wrap">
+          <div class="team-avatar cyan">MS</div>
+          <div class="team-avatar-ring"></div>
+        </div>
+        <h4>Michael Fernando Santos</h4>
+        <span class="team-role">Full Stack Developer &amp; Systems Architect</span>
+        <p>Responsable de la planificación técnica y estructuración del ecosistema digital del proyecto. Integración de servicios y sistemas escalables.</p>
+        <div class="team-skills">
+          <span>Node.js</span><span>APIs</span><span>Arquitectura</span>
+        </div>
+        <div class="team-socials">
+          <a href="#" title="GitHub">⌥</a>
+          <a href="#" title="LinkedIn">in</a>
+        </div>
+      </div>
+
+      <div class="team-card" data-aos="fade-up" data-aos-delay="200">
+        <div class="team-avatar-wrap">
+          <div class="team-avatar purple">DV</div>
+          <div class="team-avatar-ring"></div>
+        </div>
+        <h4>Daniel Fernando Vargas Sarmiento</h4>
+        <span class="team-role">Artificial Intelligence Engineer</span>
+        <p>Investigación e integración de soluciones basadas en IA. Conceptualizó el Mentor IA y los sistemas de recomendación inteligente.</p>
+        <div class="team-skills">
+          <span>Python</span><span>ML</span><span>NLP</span>
+        </div>
+        <div class="team-socials">
+          <a href="#" title="GitHub">⌥</a>
+          <a href="#" title="LinkedIn">in</a>
+        </div>
+      </div>
+
+      <div class="team-card" data-aos="fade-up" data-aos-delay="300">
+        <div class="team-avatar-wrap">
+          <div class="team-avatar green">MR</div>
+          <div class="team-avatar-ring"></div>
+        </div>
+        <h4>Mario Alberto Rojas</h4>
+        <span class="team-role">Game Environment Designer</span>
+        <p>Especialista en diseño de entornos virtuales. Lideró la construcción del campus en Roblox optimizando interacción y espacios educativos.</p>
+        <div class="team-skills">
+          <span>Roblox Studio</span><span>3D</span><span>Lua</span>
+        </div>
+        <div class="team-socials">
+          <a href="#" title="GitHub">⌥</a>
+          <a href="#" title="LinkedIn">in</a>
+        </div>
+      </div>
+
+      <div class="team-card" data-aos="fade-up" data-aos-delay="400">
+        <div class="team-avatar-wrap">
+          <div class="team-avatar orange">SM</div>
+          <div class="team-avatar-ring"></div>
+        </div>
+        <h4>Santiago Mendoza Barona</h4>
+        <span class="team-role">Data Analytics &amp; Innovation Specialist</span>
+        <p>Diseño de métricas, visualización de datos y análisis de comportamiento. Convierte datos en estrategia para mejorar la experiencia educativa.</p>
+        <div class="team-skills">
+          <span>Python</span><span>D3.js</span><span>Analytics</span>
+        </div>
+        <div class="team-socials">
+          <a href="#" title="GitHub">⌥</a>
+          <a href="#" title="LinkedIn">in</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════ FOOTER ══════════════════════════════════════════ -->
+<footer id="footer">
+  <div class="footer-glow"></div>
+  <div class="container">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="footer-logo">CAMPUS<span class="accent">VERSE</span> AI</div>
+        <p>Una experiencia virtual educativa para el futuro de Campuslands.</p>
+        <div class="footer-badge mono">HACKATHON CAMPUSLANDS 2026</div>
+      </div>
+      <div class="footer-tech">
+        <h5>Stack Tecnológico</h5>
+        <div class="tech-tags">
+          <span>Roblox Studio</span>
+          <span>Three.js</span>
+          <span>JavaScript</span>
+          <span>HTML5</span>
+          <span>CSS3</span>
+          <span>GSAP</span>
+          <span>IA Generativa</span>
+          <span>Particles.js</span>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span class="mono">© 2026 CampusVerse AI — Todos los derechos reservados</span>
+      <span class="mono">Built with ❤️ &amp; ☕ in Colombia</span>
+    </div>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
