@@ -76,6 +76,8 @@ if (window.particlesJS) {
   });
 }
 
+
+
 /* ── 5. GLOBAL 3D BACKGROUND (Three.js) ──────
    El mismo fondo animado del hero, pero fijo y
    persistente en TODAS las secciones de la página
