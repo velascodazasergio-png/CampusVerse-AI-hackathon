@@ -173,8 +173,8 @@ def analizar_campus():
     print(f"[FiftyOne] ✓ {len(resultados)} imágenes procesadas")
 
     # Lanzar la interfaz visual de FiftyOne (opcional)
-    # session = fo.launch_app(dataset)
-    # session.wait()
+    session = fo.launch_app(dataset)
+    session.wait()
 
 
 def _crear_json_demo():

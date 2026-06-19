@@ -1,5 +1,5 @@
 {
-  "generado_en": "2026-06-19T15:59:09.032794",
+  "generado_en": "2026-06-19T16:26:12.289005",
   "total_imagenes": 6,
   "plugin_usado": "zero-shot-prediction-plugin (jacobmarks)",
   "modelo": "zero-shot-detection-transformer-torch",
@@ -44,7 +44,7 @@
       "id": "demo_001",
       "nombre": "lab-ia-zona-principal",
       "zona": "Laboratorio IA",
-      "fecha": "2026-06-19T15:59:09.032794",
+      "fecha": "2026-06-19T16:26:12.289005",
       "imagen": "/screenshots/demo/lab-ia.png",
       "etiquetas": [
         {
@@ -84,7 +84,7 @@
       "id": "demo_002",
       "nombre": "dev-hub-zona-codigo",
       "zona": "Dev Hub",
-      "fecha": "2026-06-19T15:59:09.032794",
+      "fecha": "2026-06-19T16:26:12.289005",
       "imagen": "/screenshots/demo/dev-hub.png",
       "etiquetas": [
         {
@@ -114,7 +114,7 @@
       "id": "demo_003",
       "nombre": "hall-principal-entrada",
       "zona": "Hall Principal",
-      "fecha": "2026-06-19T15:59:09.032794",
+      "fecha": "2026-06-19T16:26:12.289005",
       "imagen": "/screenshots/demo/hall.png",
       "etiquetas": [
         {
@@ -154,7 +154,7 @@
       "id": "demo_004",
       "nombre": "studio-creativo-diseño",
       "zona": "Studio Creativo",
-      "fecha": "2026-06-19T15:59:09.032794",
+      "fecha": "2026-06-19T16:26:12.289005",
       "imagen": "/screenshots/demo/studio.png",
       "etiquetas": [
         {
@@ -184,7 +184,7 @@
       "id": "demo_005",
       "nombre": "lab-ia-experimentos",
       "zona": "Laboratorio IA",
-      "fecha": "2026-06-19T15:59:09.032794",
+      "fecha": "2026-06-19T16:26:12.289005",
       "imagen": "/screenshots/demo/lab-ia-2.png",
       "etiquetas": [
         {
@@ -224,7 +224,7 @@
       "id": "demo_006",
       "nombre": "innovation-hub-proyectos",
       "zona": "Innovation Hub",
-      "fecha": "2026-06-19T15:59:09.032794",
+      "fecha": "2026-06-19T16:26:12.289005",
       "imagen": "/screenshots/demo/innova.png",
       "etiquetas": [
         {
