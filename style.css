@@ -41,9 +41,17 @@
 
 /* ── RESET ────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; font-size: 16px; }
-body {
+
+/* html holds the base dark color shown behind the canvas */
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
   background: var(--bg-void);
+}
+
+/* body MUST be transparent — canvas is fixed, needs to show through every section */
+body {
+  background: transparent;
   color: var(--text-primary);
   font-family: var(--font-body);
   line-height: 1.65;
@@ -54,24 +62,36 @@ img { display: block; max-width: 100%; }
 button { cursor: pointer; border: none; background: none; }
 
 /* ══════════════════════════════════════════
-   GLOBAL 3D BACKGROUND — fixed canvas behind everything
+   GLOBAL 3D BACKGROUND — fixed, visible on all sections
    ══════════════════════════════════════════ */
 #global-bg-canvas {
   position: fixed;
-  inset: 0;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
   z-index: 0;
   pointer-events: none;
-  width: 100%;
-  height: 100%;
+  display: block;
 }
 
-/* All sections sit above the global canvas */
+/* All sections sit above the canvas but with transparent/semi-transparent backgrounds */
 #navbar, #hero, #stats, #about, #virtual-tour,
 #features, #mentor, #missions, #dashboard,
 #timeline, #team, #footer {
   position: relative;
   z-index: 1;
 }
+
+/* Per-section subtle tint for readability — canvas still visible through */
+#stats        { background: rgba(5,8,22,0.52) !important; }
+#about        { background: rgba(5,8,22,0.44) !important; }
+#virtual-tour { background: rgba(5,8,22,0.40) !important; }
+#features     { background: rgba(5,8,22,0.46) !important; }
+#mentor       { background: rgba(5,8,22,0.42) !important; }
+#missions     { background: rgba(5,8,22,0.45) !important; }
+#dashboard    { background: rgba(5,8,22,0.50) !important; }
+#timeline     { background: rgba(5,8,22,0.43) !important; }
+#team         { background: rgba(5,8,22,0.40) !important; }
+#footer       { background: rgba(5,8,22,0.72) !important; }
 
 /* ── UTILITY ────────────────────────────────── */
 .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
@@ -189,57 +209,58 @@ button { cursor: pointer; border: none; background: none; }
 .hero-title-wrap {
   position: relative;
   z-index: 3;
-  max-width: 680px;
-  padding: 120px 24px 60px 60px;
-  animation: heroFloat 6s ease-in-out infinite;
+  max-width: 560px;
+  padding: 110px 20px 60px 52px;
+  animation: heroFloat 7s ease-in-out infinite;
 }
 @keyframes heroFloat {
   0%,100% { transform: translateY(0px); }
-  50% { transform: translateY(-12px); }
+  50% { transform: translateY(-10px); }
 }
 .hero-title-inner { position: relative; }
 
 .hero-eyebrow {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 9px;
   font-family: var(--font-mono);
-  font-size: 0.7rem;
+  font-size: 0.65rem;
   color: var(--cyan);
   letter-spacing: 0.2em;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
   opacity: 0.9;
 }
 
+/* TITLE — proportionate, not overwhelming */
 .hero-title {
   font-family: var(--font-display);
-  font-size: clamp(3.2rem, 7.5vw, 6.5rem);
+  font-size: clamp(2.2rem, 4.8vw, 4rem);
   font-weight: 900;
-  line-height: 0.92;
+  line-height: 0.94;
   letter-spacing: -0.02em;
-  margin-bottom: 20px;
+  margin-bottom: 14px;
   text-shadow:
-    0 0 80px rgba(0, 212, 255, 0.4),
-    0 0 160px rgba(0, 212, 255, 0.15),
+    0 0 60px rgba(0, 212, 255, 0.35),
     0 2px 0 rgba(0,0,0,0.5);
 }
 .hero-accent {
   color: transparent;
-  -webkit-text-stroke: 2px var(--cyan);
-  text-stroke: 2px var(--cyan);
-  filter: drop-shadow(0 0 20px var(--cyan));
+  -webkit-text-stroke: 1.5px var(--cyan);
+  text-stroke: 1.5px var(--cyan);
+  filter: drop-shadow(0 0 14px var(--cyan));
 }
+/* AI letters — bigger for visual punch but not excessive */
 .hero-title-ai {
   display: block;
-  font-size: clamp(4rem, 10vw, 9rem);
-  line-height: 0.85;
+  font-size: clamp(3rem, 7vw, 6rem);
+  line-height: 0.86;
   background: linear-gradient(135deg, var(--cyan) 0%, var(--purple) 50%, var(--cyan) 100%);
   background-size: 200% auto;
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  animation: gradientShift 4s linear infinite;
-  filter: drop-shadow(0 0 30px rgba(0,212,255,0.5));
+  animation: gradientShift 5s linear infinite;
+  filter: drop-shadow(0 0 22px rgba(0,212,255,0.5));
 }
 @keyframes gradientShift {
   0% { background-position: 0% center; }
@@ -247,43 +268,43 @@ button { cursor: pointer; border: none; background: none; }
 }
 
 .hero-sub {
-  font-size: 1rem;
+  font-size: 0.9rem;
   color: var(--text-secondary);
   line-height: 1.7;
-  margin-bottom: 36px;
-  max-width: 480px;
+  margin-bottom: 32px;
+  max-width: 440px;
 }
-.hero-buttons { display: flex; gap: 16px; flex-wrap: wrap; }
+.hero-buttons { display: flex; gap: 14px; flex-wrap: wrap; }
 .btn-primary {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 14px 32px;
+  padding: 12px 28px;
   background: linear-gradient(135deg, var(--cyan), var(--purple));
   border-radius: var(--radius-sm);
   font-weight: 700;
-  font-size: 0.9rem;
+  font-size: 0.86rem;
   color: #fff;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.04em;
   transition: var(--transition);
-  box-shadow: 0 0 30px var(--cyan-glow);
+  box-shadow: 0 0 25px var(--cyan-glow);
 }
-.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 0 50px var(--cyan-glow); }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 0 40px var(--cyan-glow); }
 .btn-ghost {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  padding: 14px 28px;
+  gap: 9px;
+  padding: 12px 24px;
   border: 1px solid var(--border-hot);
   border-radius: var(--radius-sm);
   font-weight: 600;
-  font-size: 0.9rem;
+  font-size: 0.86rem;
   color: var(--text-primary);
   backdrop-filter: blur(10px);
   background: var(--bg-glass);
   transition: var(--transition);
 }
-.btn-ghost:hover { border-color: var(--cyan); color: var(--cyan); box-shadow: 0 0 20px var(--cyan-dim); }
+.btn-ghost:hover { border-color: var(--cyan); color: var(--cyan); box-shadow: 0 0 16px var(--cyan-dim); }
 .btn-icon { color: var(--cyan); }
 
 .hero-scan-line {
@@ -292,12 +313,12 @@ button { cursor: pointer; border: none; background: none; }
   height: 1px;
   background: linear-gradient(90deg, transparent, var(--cyan), transparent);
   animation: scanLine 4s ease-in-out infinite;
-  opacity: 0.4;
+  opacity: 0.35;
   pointer-events: none;
 }
 @keyframes scanLine {
   0% { top: 5%; opacity: 0; }
-  50% { opacity: 0.4; }
+  50% { opacity: 0.35; }
   100% { top: 100%; opacity: 0; }
 }
 
@@ -305,33 +326,39 @@ button { cursor: pointer; border: none; background: none; }
 .hero-robot-wrap {
   position: absolute;
   right: 0; top: 0; bottom: 0;
-  width: 52%;
+  /* 48% width — robot visible without crushing title */
+  width: 48%;
   z-index: 2;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  pointer-events: none;
 }
 .hero-spline {
   position: relative;
   width: 100%;
   height: 100vh;
   overflow: hidden;
+  pointer-events: all;
 }
 .hero-spline spline-viewer {
   width: 100%;
   height: 100%;
   display: block;
+  /* Slight scale-down so robot doesn't feel cramped */
+  transform: scale(0.85);
+  transform-origin: center center;
 }
-/* Black square to cover Spline watermark — bottom right */
+/* Black square — covers Spline watermark bottom-right */
 .spline-watermark-cover {
   position: absolute;
   bottom: 0;
   right: 0;
-  width: 160px;
-  height: 52px;
-  background: #000;
-  z-index: 10;
+  width: 185px;
+  height: 58px;
+  background: #000000;
+  z-index: 20;
 }
 
 .robot-label {
@@ -385,11 +412,10 @@ button { cursor: pointer; border: none; background: none; }
    STATS
    ══════════════════════════════════════════ */
 #stats {
-  padding: 60px 0;
+  padding: 56px 0;
   border-top: 1px solid var(--border);
   border-bottom: 1px solid var(--border);
-  background: rgba(5,8,16,0.6);
-  backdrop-filter: blur(12px);
+  backdrop-filter: blur(10px);
 }
 .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; }
 .stat-card { text-align: center; padding: 32px 20px; border-right: 1px solid var(--border); }
@@ -409,20 +435,11 @@ button { cursor: pointer; border: none; background: none; }
 /* ══════════════════════════════════════════
    SECTIONS — shared glass background
    ══════════════════════════════════════════ */
+/* Shared padding — backgrounds are set per-section via !important above */
 #about, #virtual-tour, #features, #mentor,
 #missions, #dashboard, #timeline, #team {
-  padding: 120px 0;
-  background: rgba(5,8,16,0.55);
-  backdrop-filter: blur(8px);
-}
-#virtual-tour, #mentor, #team {
-  background: rgba(5,8,16,0.45);
-}
-#features, #missions, #timeline {
-  background: rgba(5,8,16,0.5);
-}
-#dashboard {
-  background: rgba(5,8,16,0.55);
+  padding: 100px 0;
+  backdrop-filter: blur(6px);
 }
 
 /* ══════════════════════════════════════════
