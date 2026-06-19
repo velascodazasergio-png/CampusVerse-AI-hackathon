@@ -5,33 +5,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>CampusVerse AI — El Campus del Futuro</title>
   <link rel="stylesheet" href="style.css" />
-
-  <!-- AOS -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" />
-
-  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet" />
-
-  <!-- Three.js -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  <!-- GSAP -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-  <!-- AOS -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
-  <!-- Particles.js -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
-  <!-- Spline Viewer -->
   <script type="module" src="https://unpkg.com/@splinetool/viewer@1.9.82/build/spline-viewer.js"></script>
 </head>
 <body>
 
-<!-- ══ GLOBAL 3D BACKGROUND CANVAS ══ -->
 <canvas id="global-bg-canvas"></canvas>
 
-<!-- ══════════════════════════════════════════ NAV ══════════════════════════════════════════ -->
+<!-- NAV -->
 <nav id="navbar">
   <div class="nav-inner">
     <div class="nav-logo">
@@ -53,11 +42,9 @@
   </div>
 </nav>
 
-<!-- ══════════════════════════════════════════ HERO ══════════════════════════════════════════ -->
+<!-- HERO -->
 <section id="hero">
   <div id="particles-js"></div>
-
-  <!-- HERO TITLE — FLOATING ANIMATED -->
   <div class="hero-title-wrap" id="hero-title-wrap">
     <div class="hero-title-inner" data-aos="fade-down" data-aos-duration="1200">
       <div class="hero-eyebrow">
@@ -80,12 +67,9 @@
     </div>
     <div class="hero-scan-line"></div>
   </div>
-
-  <!-- SPLINE ROBOT -->
   <div class="hero-robot-wrap" id="robot-wrap">
     <div class="hero-spline">
       <spline-viewer url="https://prod.spline.design/ZXK8zHXl5zTQ7O0i/scene.splinecode"></spline-viewer>
-      <!-- Watermark cover -->
       <div class="spline-watermark-cover"></div>
     </div>
     <div class="robot-label">
@@ -93,14 +77,13 @@
       <span class="robot-status"><span class="dot green"></span>ONLINE</span>
     </div>
   </div>
-
   <div class="hero-scroll-hint">
     <span class="mono">SCROLL</span>
     <div class="scroll-arrow"></div>
   </div>
 </section>
 
-<!-- ══════════════════════════════════════════ STATS ══════════════════════════════════════════ -->
+<!-- STATS -->
 <section id="stats">
   <div class="container">
     <div class="stats-grid">
@@ -124,7 +107,7 @@
   </div>
 </section>
 
-<!-- ══════════════════════════════════════════ ABOUT ══════════════════════════════════════════ -->
+<!-- ABOUT -->
 <section id="about">
   <div class="container">
     <div class="section-header" data-aos="fade-up">
@@ -132,7 +115,6 @@
       <h2>¿Qué es <span class="accent">CampusVerse AI</span>?</h2>
       <p class="section-desc">Una convergencia de tecnologías para reinventar cómo se descubre la educación.</p>
     </div>
-
     <div class="about-grid">
       <div class="about-text" data-aos="fade-right">
         <p>CampusVerse AI es una plataforma inmersiva que fusiona el poder de <strong>Roblox</strong> como entorno 3D con capas de <strong>Inteligencia Artificial</strong>, analítica en tiempo real y gamificación para crear una experiencia educativa sin precedentes.</p>
@@ -145,7 +127,6 @@
           <span class="tag">Educación</span>
         </div>
       </div>
-
       <div class="about-cards" data-aos="fade-left">
         <div class="about-card">
           <div class="about-card-icon">🎮</div>
@@ -172,7 +153,7 @@
   </div>
 </section>
 
-<!-- ══════════════════════════════════════════ VIRTUAL TOUR ══════════════════════════════════════════ -->
+<!-- VIRTUAL TOUR -->
 <section id="virtual-tour">
   <div class="container">
     <div class="section-header" data-aos="fade-up">
@@ -180,23 +161,25 @@
       <h2>Explora el <span class="accent">Campus Digital</span></h2>
     </div>
 
-    <!-- VIDEO PLACEHOLDER — REEMPLAZA CON TU VIDEO -->
+    <!-- ══════════════════════════════════
+         VIDEO 1: campuslands.mov
+         Reemplaza el placeholder original
+    ══════════════════════════════════ -->
     <div class="video-placeholder" data-aos="fade-up" data-aos-delay="100">
-      <div class="video-placeholder-inner">
+      <div class="video-placeholder-inner" style="padding:0; overflow:hidden;">
         <div class="video-corner tl"></div>
         <div class="video-corner tr"></div>
         <div class="video-corner bl"></div>
         <div class="video-corner br"></div>
-        <div class="video-scan"></div>
-        <div class="video-placeholder-content">
-          <div class="video-icon">▶</div>
-          <h3 class="video-placeholder-title">Recorrido Virtual del Campus</h3>
-          <p class="video-placeholder-desc">Coloca tu video aquí — reemplaza este bloque con tu etiqueta <code>&lt;video&gt;</code> o <code>&lt;iframe&gt;</code></p>
-          <div class="video-placeholder-badge mono">// VIDEO_TOUR_v1.0 · PRÓXIMAMENTE</div>
-        </div>
+        <video
+          src="campuslands.mov"
+          controls
+          style="width:100%; height:100%; object-fit:cover; border-radius:20px; display:block;"
+        >
+          Tu navegador no soporta la reproducción de video.
+        </video>
       </div>
     </div>
-    <!-- FIN VIDEO PLACEHOLDER -->
 
     <!-- MAPA -->
     <div class="tour-map" data-aos="fade-up">
@@ -220,14 +203,13 @@
   </div>
 </section>
 
-<!-- ══════════════════════════════════════════ FEATURES ══════════════════════════════════════════ -->
+<!-- FEATURES -->
 <section id="features">
   <div class="container">
     <div class="section-header" data-aos="fade-up">
       <span class="section-eyebrow mono">// 003 — FUNCIONALIDADES</span>
       <h2>Tecnología que <span class="accent">transforma</span> la educación</h2>
     </div>
-
     <div class="features-grid">
       <div class="feature-card" data-aos="fade-up" data-aos-delay="0">
         <div class="feature-icon">🌐</div>
@@ -269,7 +251,7 @@
   </div>
 </section>
 
-<!-- ══════════════════════════════════════════ MENTOR IA ══════════════════════════════════════════ -->
+<!-- MENTOR IA -->
 <section id="mentor">
   <div class="container">
     <div class="mentor-layout">
@@ -284,7 +266,6 @@
           <li><span class="check">✓</span> Análisis de perfil académico</li>
         </ul>
       </div>
-
       <div class="mentor-chat" data-aos="fade-left">
         <div class="chat-header">
           <div class="chat-avatar">🤖</div>
@@ -296,20 +277,17 @@
             <div class="bar"></div><div class="bar"></div><div class="bar"></div>
           </div>
         </div>
-
         <div class="chat-body" id="chat-body">
           <div class="chat-msg bot">
             <span class="msg-icon">🤖</span>
             <div class="bubble">¡Hola! Soy tu Mentor IA. ¿Qué deseas explorar hoy en CampusVerse?</div>
           </div>
         </div>
-
         <div class="chat-suggestions">
           <button class="suggest-btn" onclick="sendSuggestion(this)">¿Dónde puedo aprender IA?</button>
           <button class="suggest-btn" onclick="sendSuggestion(this)">¿Qué programas ofrecen?</button>
           <button class="suggest-btn" onclick="sendSuggestion(this)">Recórrenos el campus</button>
         </div>
-
         <div class="chat-input-row">
           <input type="text" id="chat-input" placeholder="Escribe tu pregunta..." />
           <button id="chat-send" onclick="handleChatSend()">▶</button>
@@ -319,14 +297,13 @@
   </div>
 </section>
 
-<!-- ══════════════════════════════════════════ MISSIONS ══════════════════════════════════════════ -->
+<!-- MISSIONS -->
 <section id="missions">
   <div class="container">
     <div class="section-header" data-aos="fade-up">
       <span class="section-eyebrow mono">// 005 — SISTEMA DE MISIONES</span>
       <h2>Desbloquea <span class="accent">logros</span> en tu aventura</h2>
     </div>
-
     <div class="missions-grid">
       <div class="mission-card unlocked" data-aos="fade-up" data-aos-delay="0">
         <div class="mission-badge">🏆</div>
@@ -368,7 +345,7 @@
   </div>
 </section>
 
-<!-- ══════════════════════════════════════════ DASHBOARD ══════════════════════════════════════════ -->
+<!-- DASHBOARD -->
 <section id="dashboard">
   <div class="container">
     <div class="section-header" data-aos="fade-up">
@@ -376,23 +353,25 @@
       <h2>Dashboard de <span class="accent">Datos</span> en Tiempo Real</h2>
     </div>
 
-    <!-- VIDEO PLACEHOLDER DASHBOARD -->
+    <!-- ══════════════════════════════════
+         VIDEO 2: 3d-campus.mp4
+         Reemplaza el placeholder del dashboard
+    ══════════════════════════════════ -->
     <div class="video-placeholder video-placeholder--sm" data-aos="fade-up" data-aos-delay="100">
-      <div class="video-placeholder-inner">
+      <div class="video-placeholder-inner" style="padding:0; overflow:hidden;">
         <div class="video-corner tl"></div>
         <div class="video-corner tr"></div>
         <div class="video-corner bl"></div>
         <div class="video-corner br"></div>
-        <div class="video-scan"></div>
-        <div class="video-placeholder-content">
-          <div class="video-icon">▶</div>
-          <h3 class="video-placeholder-title">Demo del Dashboard de Analítica</h3>
-          <p class="video-placeholder-desc">Coloca tu video aquí — reemplaza este bloque con tu etiqueta <code>&lt;video&gt;</code> o <code>&lt;iframe&gt;</code></p>
-          <div class="video-placeholder-badge mono">// VIDEO_DASHBOARD_v1.0 · PRÓXIMAMENTE</div>
-        </div>
+        <video
+          src="3d-campus.mp4"
+          controls
+          style="width:100%; height:100%; object-fit:cover; border-radius:20px; display:block;"
+        >
+          Tu navegador no soporta la reproducción de video.
+        </video>
       </div>
     </div>
-    <!-- FIN VIDEO PLACEHOLDER -->
 
     <div class="dashboard-wrap" data-aos="fade-up">
       <div class="dash-sidebar">
@@ -408,7 +387,6 @@
           <span class="dot green"></span><span class="mono">LIVE</span>
         </div>
       </div>
-
       <div class="dash-main">
         <div class="dash-kpis">
           <div class="kpi"><span class="kpi-val" id="kpi1">247</span><span class="kpi-lbl">Usuarios Activos</span></div>
@@ -416,7 +394,6 @@
           <div class="kpi"><span class="kpi-val" id="kpi3">94%</span><span class="kpi-lbl">Satisfacción</span></div>
           <div class="kpi"><span class="kpi-val" id="kpi4">38</span><span class="kpi-lbl">Misiones Completadas</span></div>
         </div>
-
         <div class="dash-charts">
           <div class="chart-card">
             <div class="chart-title">Áreas más visitadas</div>
@@ -441,7 +418,6 @@
             </div>
           </div>
         </div>
-
         <div class="dash-activity">
           <div class="chart-title">Actividad en vivo</div>
           <canvas id="lineChart" width="100%" height="60"></canvas>
@@ -451,7 +427,7 @@
   </div>
 </section>
 
-<!-- ══════════════════════════════════════════ TIMELINE ══════════════════════════════════════════ -->
+<!-- TIMELINE -->
 <section id="timeline">
   <div class="container">
     <div class="section-header" data-aos="fade-up">
@@ -517,7 +493,7 @@
   </div>
 </section>
 
-<!-- ══════════════════════════════════════════ TEAM ══════════════════════════════════════════ -->
+<!-- TEAM -->
 <section id="team">
   <div class="container">
     <div class="section-header" data-aos="fade-up">
@@ -534,10 +510,7 @@
         <span class="team-role">Frontend Developer &amp; UX Designer</span>
         <p>Especialista en desarrollo frontend, diseño de interfaces modernas y experiencias digitales inmersivas. Arquitecto visual de CampusVerse AI.</p>
         <div class="team-skills"><span>HTML/CSS</span><span>Three.js</span><span>UX</span></div>
-        <div class="team-socials">
-          <a href="#" title="GitHub">⌥</a>
-          <a href="#" title="LinkedIn">in</a>
-        </div>
+        <div class="team-socials"><a href="#" title="GitHub">⌥</a><a href="#" title="LinkedIn">in</a></div>
       </div>
       <div class="team-card" data-aos="fade-up" data-aos-delay="100">
         <div class="team-avatar-wrap">
@@ -548,10 +521,7 @@
         <span class="team-role">Full Stack Developer &amp; Systems Architect</span>
         <p>Responsable de la planificación técnica y estructuración del ecosistema digital del proyecto. Integración de servicios y sistemas escalables.</p>
         <div class="team-skills"><span>Node.js</span><span>APIs</span><span>Arquitectura</span></div>
-        <div class="team-socials">
-          <a href="#" title="GitHub">⌥</a>
-          <a href="#" title="LinkedIn">in</a>
-        </div>
+        <div class="team-socials"><a href="#" title="GitHub">⌥</a><a href="#" title="LinkedIn">in</a></div>
       </div>
       <div class="team-card" data-aos="fade-up" data-aos-delay="200">
         <div class="team-avatar-wrap">
@@ -562,10 +532,7 @@
         <span class="team-role">Artificial Intelligence Engineer</span>
         <p>Investigación e integración de soluciones basadas en IA. Conceptualizó el Mentor IA y los sistemas de recomendación inteligente.</p>
         <div class="team-skills"><span>Python</span><span>ML</span><span>NLP</span></div>
-        <div class="team-socials">
-          <a href="#" title="GitHub">⌥</a>
-          <a href="#" title="LinkedIn">in</a>
-        </div>
+        <div class="team-socials"><a href="#" title="GitHub">⌥</a><a href="#" title="LinkedIn">in</a></div>
       </div>
       <div class="team-card" data-aos="fade-up" data-aos-delay="300">
         <div class="team-avatar-wrap">
@@ -576,10 +543,7 @@
         <span class="team-role">Game Environment Designer</span>
         <p>Especialista en diseño de entornos virtuales. Lideró la construcción del campus en Roblox optimizando interacción y espacios educativos.</p>
         <div class="team-skills"><span>Roblox Studio</span><span>3D</span><span>Lua</span></div>
-        <div class="team-socials">
-          <a href="#" title="GitHub">⌥</a>
-          <a href="#" title="LinkedIn">in</a>
-        </div>
+        <div class="team-socials"><a href="#" title="GitHub">⌥</a><a href="#" title="LinkedIn">in</a></div>
       </div>
       <div class="team-card" data-aos="fade-up" data-aos-delay="400">
         <div class="team-avatar-wrap">
@@ -590,16 +554,13 @@
         <span class="team-role">Data Analytics &amp; Innovation Specialist</span>
         <p>Diseño de métricas, visualización de datos y análisis de comportamiento. Convierte datos en estrategia para mejorar la experiencia educativa.</p>
         <div class="team-skills"><span>Python</span><span>D3.js</span><span>Analytics</span></div>
-        <div class="team-socials">
-          <a href="#" title="GitHub">⌥</a>
-          <a href="#" title="LinkedIn">in</a>
-        </div>
+        <div class="team-socials"><a href="#" title="GitHub">⌥</a><a href="#" title="LinkedIn">in</a></div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ══════════════════════════════════════════ FOOTER ══════════════════════════════════════════ -->
+<!-- FOOTER -->
 <footer id="footer">
   <div class="footer-glow"></div>
   <div class="container">
@@ -612,16 +573,9 @@
       <div class="footer-tech">
         <h5>Stack Tecnológico</h5>
         <div class="tech-tags">
-          <span>Roblox Studio</span>
-          <span>Three.js</span>
-          <span>JavaScript</span>
-          <span>TypeScript</span>
-          <span>HTML5</span>
-          <span>CSS3</span>
-          <span>GSAP</span>
-          <span>IA Generativa</span>
-          <span>Spline</span>
-          <span>Particles.js</span>
+          <span>Roblox Studio</span><span>Three.js</span><span>JavaScript</span>
+          <span>TypeScript</span><span>HTML5</span><span>CSS3</span>
+          <span>GSAP</span><span>IA Generativa</span><span>Spline</span><span>Particles.js</span>
         </div>
       </div>
     </div>
