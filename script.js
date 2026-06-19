@@ -90,9 +90,11 @@ if (window.particlesJS) {
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
   renderer.setSize(window.innerWidth, window.innerHeight);
 
+
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 200);
   camera.position.set(0, 0, 6);
+
 
   // --- Grid plane (floor) ---
   const gridHelper = new THREE.GridHelper(60, 50, 0x00d4ff, 0x00d4ff);
@@ -135,6 +137,7 @@ if (window.particlesJS) {
     scene.add(mesh);
     floaters.push(mesh);
   }
+
 
   // --- Connection lines (wireframe cube-like shapes) ---
   const lineMat = new THREE.LineBasicMaterial({ color: 0x00d4ff, transparent: true, opacity: 0.06 });
@@ -180,6 +183,7 @@ if (window.particlesJS) {
       if (f.position.z > 2 || f.position.z < -10) f.userData.vz *= -1;
     });
 
+    
     // Subtle camera drift
     camera.position.x = Math.sin(t * 0.08) * 0.4;
     camera.position.y = Math.cos(t * 0.06) * 0.2;
