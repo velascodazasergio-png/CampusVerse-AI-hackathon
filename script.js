@@ -15,18 +15,47 @@
    Ejemplo n8n:        'https://tu-n8n.app/webhook/tu-id-aqui'
    Ejemplo Zapier:     'https://hooks.zapier.com/hooks/catch/tu-id-aqui'
    ════════════════════════════════════════════ */
-const WEBHOOK_URL = ''; // ← PON AQUÍ TU WEBHOOK URL
+const WEBHOOK_URL = 'https://icon-lingo-essay.ngrok-free.dev/webhook-test/campusverse-chat';
 
 async function sendToWebhook(payload) {
-  if (!WEBHOOK_URL) return; // Si no hay webhook configurado, no hace nada
+  if (!WEBHOOK_URL) return null; // Si no hay webhook configurado, retorna null
   try {
-    await fetch(WEBHOOK_URL, {
+    const response = await fetch(WEBHOOK_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload),
     });
+    
+    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+    
+    const text = await response.text();
+    console.log('[CVAI] Webhook response text:', text);
+    
+    if (!text || text.trim() === '') {
+      console.log('[CVAI] Respuesta vacía del webhook');
+      return null;
+    }
+    
+    try {
+      const data = JSON.parse(text);
+      console.log('[CVAI] Webhook response JSON:', data);
+      
+      // Buscar la respuesta en diferentes propiedades posibles
+      const responseText = data.respuesta || data.response || data.message || data.reply || data.text || data.result;
+      
+      if (responseText && responseText.trim() !== '') {
+        return responseText;
+      }
+    } catch (e) {
+      // Si no es JSON válido, devuelve el texto como está
+      console.log('[CVAI] Respuesta no es JSON válido, usando como texto:', text);
+      return text;
+    }
+    
+    return null;
   } catch (err) {
-    console.warn('[CVAI] Webhook error:', err);
+    console.error('[CVAI] Webhook error:', err);
+    return null;
   }
 }
 
@@ -76,6 +105,8 @@ if (window.particlesJS) {
   });
 }
 
+
+
 /* ── 5. GLOBAL 3D BACKGROUND (Three.js) ──────
    El mismo fondo animado del hero, pero fijo y
    persistente en TODAS las secciones de la página
@@ -88,9 +119,11 @@ if (window.particlesJS) {
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
   renderer.setSize(window.innerWidth, window.innerHeight);
 
+
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 200);
   camera.position.set(0, 0, 6);
+
 
   // --- Grid plane (floor) ---
   const gridHelper = new THREE.GridHelper(60, 50, 0x00d4ff, 0x00d4ff);
@@ -133,6 +166,8 @@ if (window.particlesJS) {
     scene.add(mesh);
     floaters.push(mesh);
   }
+  
+
 
   // --- Connection lines (wireframe cube-like shapes) ---
   const lineMat = new THREE.LineBasicMaterial({ color: 0x00d4ff, transparent: true, opacity: 0.06 });
@@ -178,6 +213,7 @@ if (window.particlesJS) {
       if (f.position.z > 2 || f.position.z < -10) f.userData.vz *= -1;
     });
 
+    
     // Subtle camera drift
     camera.position.x = Math.sin(t * 0.08) * 0.4;
     camera.position.y = Math.cos(t * 0.06) * 0.2;
@@ -358,16 +394,31 @@ function handleChatSend() {
   addMessage(text, true);
   input.value = '';
 
-  // ═══ WEBHOOK — Se envía cada mensaje del usuario al webhook configurado ═══
+  // Show loading message
+  const body = document.getElementById('chat-body');
+  if (body) {
+    const loadingDiv = document.createElement('div');
+    loadingDiv.className = 'chat-msg bot';
+    loadingDiv.id = 'loading-msg';
+    loadingDiv.innerHTML = '<span class="msg-icon">🤖</span><div class="bubble">Consultando al Mentor IA...</div>';
+    body.appendChild(loadingDiv);
+    body.scrollTop = body.scrollHeight;
+  }
+
+  // Intentar obtener respuesta del webhook, si falla usar respuestas locales
   sendToWebhook({
     event: 'mentor_chat_message',
     message: text,
     timestamp: new Date().toISOString(),
     source: 'CampusVerse AI — Mentor Chat',
+  }).then(webhookResponse => {
+    const loadingMsg = document.getElementById('loading-msg');
+    if (loadingMsg) loadingMsg.remove();
+    
+    // Usar respuesta del webhook si existe, sino usar respuesta local
+    const finalResponse = webhookResponse || getResponse(text);
+    addMessage(finalResponse, false);
   });
-  // ═══════════════════════════════════════════════════════════════════════════
-
-  setTimeout(() => addMessage(getResponse(text), false), 800);
 }
 
 function sendSuggestion(btn) {
