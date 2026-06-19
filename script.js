@@ -166,6 +166,7 @@ if (window.particlesJS) {
     scene.add(mesh);
     floaters.push(mesh);
   }
+  
 
 
   // --- Connection lines (wireframe cube-like shapes) ---
