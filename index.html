@@ -15,12 +15,244 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
   <script type="module" src="https://unpkg.com/@splinetool/viewer@1.9.82/build/spline-viewer.js"></script>
+
+  <style>
+  /* ═══════════════════════════════════════════
+     ESTILOS NUEVOS — Galería Preview + Conexión
+  ═══════════════════════════════════════════ */
+
+  /* ── Sección galería preview en el index ── */
+  #gallery-preview {
+    padding: 100px 0;
+    background: rgba(5,8,22,0.48);
+    backdrop-filter: blur(6px);
+    position: relative;
+    z-index: 1;
+  }
+
+  .gallery-preview-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+
+  .gp-card {
+    background: rgba(10,14,28,0.75);
+    border: 1px solid rgba(0,212,255,0.12);
+    border-radius: 14px;
+    overflow: hidden;
+    transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+  }
+
+  .gp-card:hover {
+    transform: translateY(-6px);
+    border-color: #00d4ff;
+    box-shadow: 0 16px 40px rgba(0,0,0,0.5), 0 0 20px rgba(0,212,255,0.1);
+  }
+
+  .gp-img {
+    width: 100%;
+    height: 160px;
+    background: linear-gradient(135deg, #0a0e1c, #0d1a2e);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 10px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .gp-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    inset: 0;
+  }
+
+  .gp-zone-icon {
+    font-size: 2.2rem;
+    filter: drop-shadow(0 0 12px #00d4ff);
+    position: relative;
+    z-index: 1;
+  }
+
+  .gp-zone-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.62rem;
+    color: #8ba3c7;
+    letter-spacing: 0.12em;
+    position: relative;
+    z-index: 1;
+  }
+
+  .gp-info {
+    padding: 12px 16px;
+  }
+
+  .gp-name {
+    font-family: 'Orbitron', monospace;
+    font-size: 0.74rem;
+    font-weight: 600;
+    color: #e8f4ff;
+    margin-bottom: 6px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .gp-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+
+  .gp-tag {
+    background: rgba(0,212,255,0.08);
+    border: 1px solid rgba(0,212,255,0.2);
+    border-radius: 4px;
+    padding: 2px 7px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.58rem;
+    color: #00d4ff;
+  }
+
+  .gp-loading {
+    grid-column: 1/-1;
+    text-align: center;
+    padding: 40px;
+    color: #4a6080;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+  }
+
+  .gp-loading-spinner {
+    width: 28px; height: 28px;
+    border: 2px solid rgba(0,212,255,0.15);
+    border-top-color: #00d4ff;
+    border-radius: 50%;
+    animation: gpSpin 0.8s linear infinite;
+    margin: 0 auto 12px;
+  }
+
+  @keyframes gpSpin { to { transform: rotate(360deg); } }
+
+  .gallery-cta-row {
+    text-align: center;
+  }
+
+  .fo-powered-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    background: rgba(139,92,246,0.08);
+    border: 1px solid rgba(139,92,246,0.25);
+    border-radius: 6px;
+    padding: 6px 14px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.62rem;
+    color: #8b5cf6;
+    letter-spacing: 0.08em;
+    margin-bottom: 20px;
+  }
+
+  /* ── Status bar del servidor Node.js ── */
+  .server-status-bar {
+    position: fixed;
+    bottom: 16px;
+    left: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(5,8,16,0.9);
+    border: 1px solid rgba(0,212,255,0.15);
+    border-radius: 8px;
+    padding: 8px 14px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.62rem;
+    color: #8ba3c7;
+    z-index: 9000;
+    backdrop-filter: blur(10px);
+    letter-spacing: 0.06em;
+    transition: opacity 0.3s;
+  }
+
+  .server-status-bar .status-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: #4a6080;
+    transition: background 0.3s;
+  }
+
+  .server-status-bar.online .status-dot { background: #06d6a0; }
+  .server-status-bar.online            { border-color: rgba(6,214,160,0.25); }
+  .server-status-bar.offline .status-dot { background: #f59e0b; }
+
+  /* ── Toast de notificación ── */
+  .cv-toast {
+    position: fixed;
+    top: 80px;
+    right: 20px;
+    background: rgba(10,14,28,0.95);
+    border: 1px solid rgba(0,212,255,0.25);
+    border-radius: 10px;
+    padding: 12px 18px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    color: #e8f4ff;
+    z-index: 9999;
+    backdrop-filter: blur(20px);
+    transform: translateX(120%);
+    transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1);
+    max-width: 300px;
+    letter-spacing: 0.04em;
+  }
+
+  .cv-toast.show { transform: translateX(0); }
+  .cv-toast.success { border-color: rgba(6,214,160,0.4); }
+  .cv-toast.error   { border-color: rgba(245,158,11,0.4); color: #f59e0b; }
+
+  /* ── Chat fuente tag ── */
+  .chat-source-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.58rem;
+    padding: 2px 6px;
+    border-radius: 4px;
+    margin-left: 6px;
+    vertical-align: middle;
+  }
+  .chat-source-tag.node { background: rgba(6,214,160,0.1); color: #06d6a0; border: 1px solid rgba(6,214,160,0.2); }
+  .chat-source-tag.local{ background: rgba(139,92,246,0.1); color: #8b5cf6; border: 1px solid rgba(139,92,246,0.2); }
+
+  /* Responsive galería preview */
+  @media (max-width: 900px) {
+    .gallery-preview-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 540px) {
+    .gallery-preview-grid { grid-template-columns: 1fr; }
+  }
+  </style>
 </head>
 <body>
 
 <canvas id="global-bg-canvas"></canvas>
 
-<!-- NAV -->
+<!-- ── STATUS BAR NODE.JS ── -->
+<div class="server-status-bar offline" id="serverStatusBar">
+  <span class="status-dot"></span>
+  <span id="serverStatusText">Node.js — verificando...</span>
+</div>
+
+<!-- ── TOAST ── -->
+<div class="cv-toast" id="cvToast"></div>
+
+<!-- ══ NAV ══ -->
 <nav id="navbar">
   <div class="nav-inner">
     <div class="nav-logo">
@@ -32,7 +264,9 @@
       <li><a href="#about">Proyecto</a></li>
       <li><a href="#features">Funciones</a></li>
       <li><a href="#mentor">Mentor IA</a></li>
+      <li><a href="#gallery-preview">Galería</a></li>
       <li><a href="#missions">Misiones</a></li>
+      <li><a href="admin.html">Dashboard</a></li>
       <li><a href="#team">Equipo</a></li>
     </ul>
     <a href="#hero" class="nav-cta">Ingresar</a>
@@ -42,7 +276,7 @@
   </div>
 </nav>
 
-<!-- HERO -->
+<!-- ══ HERO ══ -->
 <section id="hero">
   <div id="particles-js"></div>
   <div class="hero-title-wrap" id="hero-title-wrap">
@@ -83,7 +317,7 @@
   </div>
 </section>
 
-<!-- STATS -->
+<!-- ══ STATS ══ -->
 <section id="stats">
   <div class="container">
     <div class="stats-grid">
@@ -107,7 +341,7 @@
   </div>
 </section>
 
-<!-- ABOUT -->
+<!-- ══ ABOUT ══ -->
 <section id="about">
   <div class="container">
     <div class="section-header" data-aos="fade-up">
@@ -122,7 +356,8 @@
         <div class="about-tags">
           <span class="tag">Roblox Studio</span>
           <span class="tag">IA Generativa</span>
-          <span class="tag">Analítica</span>
+          <span class="tag">FiftyOne</span>
+          <span class="tag">Node.js</span>
           <span class="tag">Gamificación</span>
           <span class="tag">Educación</span>
         </div>
@@ -139,9 +374,9 @@
           <p>Mentor IA personalizado que guía cada experiencia.</p>
         </div>
         <div class="about-card">
-          <div class="about-card-icon">📊</div>
-          <h4>Analítica</h4>
-          <p>Dashboard de datos en tiempo real sobre comportamiento.</p>
+          <div class="about-card-icon">🔬</div>
+          <h4>FiftyOne Vision</h4>
+          <p>Visión computacional que analiza y etiqueta las zonas del campus.</p>
         </div>
         <div class="about-card">
           <div class="about-card-icon">🏆</div>
@@ -153,35 +388,25 @@
   </div>
 </section>
 
-<!-- VIRTUAL TOUR -->
+<!-- ══ VIRTUAL TOUR ══ -->
 <section id="virtual-tour">
   <div class="container">
     <div class="section-header" data-aos="fade-up">
       <span class="section-eyebrow mono">// 002 — RECORRIDO VIRTUAL</span>
       <h2>Explora el <span class="accent">Campus Digital</span></h2>
     </div>
-
-    <!-- ══════════════════════════════════
-         VIDEO 1: campuslands.mov
-         Reemplaza el placeholder original
-    ══════════════════════════════════ -->
     <div class="video-placeholder" data-aos="fade-up" data-aos-delay="100">
       <div class="video-placeholder-inner" style="padding:0; overflow:hidden;">
         <div class="video-corner tl"></div>
         <div class="video-corner tr"></div>
         <div class="video-corner bl"></div>
         <div class="video-corner br"></div>
-        <video
-          src="campuslands.mov"
-          controls
-          style="width:100%; height:100%; object-fit:cover; border-radius:20px; display:block;"
-        >
+        <video src="campuslands.mov" controls
+          style="width:100%; height:100%; object-fit:cover; border-radius:20px; display:block;">
           Tu navegador no soporta la reproducción de video.
         </video>
       </div>
     </div>
-
-    <!-- MAPA -->
     <div class="tour-map" data-aos="fade-up">
       <div class="map-label mono">// MAPA_VIRTUAL_v1.0</div>
       <div class="campus-map">
@@ -203,7 +428,7 @@
   </div>
 </section>
 
-<!-- FEATURES -->
+<!-- ══ FEATURES ══ -->
 <section id="features">
   <div class="container">
     <div class="section-header" data-aos="fade-up">
@@ -236,22 +461,22 @@
         <div class="feature-line"></div>
       </div>
       <div class="feature-card" data-aos="fade-up" data-aos-delay="320">
-        <div class="feature-icon">📊</div>
-        <h3>Dashboard de Analítica</h3>
-        <p>Visualización de datos en tiempo real sobre comportamiento e interés de usuarios.</p>
+        <div class="feature-icon">🔬</div>
+        <h3>Galería con Visión IA</h3>
+        <p>FiftyOne analiza screenshots del campus y detecta objetos automáticamente.</p>
         <div class="feature-line"></div>
       </div>
       <div class="feature-card" data-aos="fade-up" data-aos-delay="400">
-        <div class="feature-icon">✨</div>
-        <h3>Experiencia Inmersiva</h3>
-        <p>Entorno holográfico, sonido espacial y narrativa educativa integrada.</p>
+        <div class="feature-icon">📊</div>
+        <h3>Dashboard en Tiempo Real</h3>
+        <p>Coordinadores ven métricas reales de zonas, chats y comportamiento de usuarios.</p>
         <div class="feature-line"></div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- MENTOR IA -->
+<!-- ══ MENTOR IA ══ -->
 <section id="mentor">
   <div class="container">
     <div class="mentor-layout">
@@ -265,13 +490,20 @@
           <li><span class="check">✓</span> Guía por zonas del campus</li>
           <li><span class="check">✓</span> Análisis de perfil académico</li>
         </ul>
+        <!-- Indicador de fuente de IA -->
+        <div style="margin-top:20px; display:flex; align-items:center; gap:10px; font-family:'JetBrains Mono',monospace; font-size:0.65rem;">
+          <span style="color:#4a6080">FUENTE:</span>
+          <span id="iaSourceLabel" style="color:#8b5cf6; background:rgba(139,92,246,0.1); border:1px solid rgba(139,92,246,0.2); padding:3px 10px; border-radius:4px;">LOCAL</span>
+        </div>
       </div>
       <div class="mentor-chat" data-aos="fade-left">
         <div class="chat-header">
           <div class="chat-avatar">🤖</div>
           <div>
             <div class="chat-name">Mentor IA</div>
-            <div class="chat-status"><span class="dot green"></span> En línea — Procesando</div>
+            <div class="chat-status" id="chatStatus">
+              <span class="dot green"></span> En línea — Procesando
+            </div>
           </div>
           <div class="chat-signal">
             <div class="bar"></div><div class="bar"></div><div class="bar"></div>
@@ -297,11 +529,47 @@
   </div>
 </section>
 
-<!-- MISSIONS -->
+<!-- ══ GALERÍA PREVIEW ══════════════════════════════════
+     Muestra 6 imágenes del campus analizadas por FiftyOne.
+     Se carga desde la API Node.js (GET /api/gallery)
+     Si el servidor no está activo, muestra placeholders.
+══════════════════════════════════════════════════════ -->
+<section id="gallery-preview">
+  <div class="container">
+    <div class="section-header" data-aos="fade-up">
+      <span class="section-eyebrow mono">// 005 — GALERÍA MULTIMEDIA · FIFTYONE</span>
+      <h2>Campus <span class="accent">Analizado con IA</span></h2>
+      <p class="section-desc">Screenshots del campus de Roblox etiquetados automáticamente con visión computacional.</p>
+    </div>
+
+    <div style="text-align:center; margin-bottom:28px" data-aos="fade-up">
+      <span class="fo-powered-badge">
+        🔬 Powered by FiftyOne · zero-shot-prediction-plugin · Voxel51
+      </span>
+    </div>
+
+    <!-- Grid: se llena con datos de /api/gallery -->
+    <div class="gallery-preview-grid" id="galleryPreviewGrid" data-aos="fade-up">
+      <div class="gp-loading">
+        <div class="gp-loading-spinner"></div>
+        Cargando galería desde API...
+      </div>
+    </div>
+
+    <div class="gallery-cta-row" data-aos="fade-up">
+      <a href="gallery.html" class="btn-primary" style="display:inline-flex; gap:8px;">
+        <span>Ver galería completa</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ══ MISSIONS ══ -->
 <section id="missions">
   <div class="container">
     <div class="section-header" data-aos="fade-up">
-      <span class="section-eyebrow mono">// 005 — SISTEMA DE MISIONES</span>
+      <span class="section-eyebrow mono">// 006 — SISTEMA DE MISIONES</span>
       <h2>Desbloquea <span class="accent">logros</span> en tu aventura</h2>
     </div>
     <div class="missions-grid">
@@ -345,34 +613,25 @@
   </div>
 </section>
 
-<!-- DASHBOARD -->
+<!-- ══ DASHBOARD ══ -->
 <section id="dashboard">
   <div class="container">
     <div class="section-header" data-aos="fade-up">
-      <span class="section-eyebrow mono">// 006 — ANALÍTICA INTELIGENTE</span>
+      <span class="section-eyebrow mono">// 007 — ANALÍTICA INTELIGENTE</span>
       <h2>Dashboard de <span class="accent">Datos</span> en Tiempo Real</h2>
     </div>
-
-    <!-- ══════════════════════════════════
-         VIDEO 2: 3d-campus.mp4
-         Reemplaza el placeholder del dashboard
-    ══════════════════════════════════ -->
     <div class="video-placeholder video-placeholder--sm" data-aos="fade-up" data-aos-delay="100">
       <div class="video-placeholder-inner" style="padding:0; overflow:hidden;">
         <div class="video-corner tl"></div>
         <div class="video-corner tr"></div>
         <div class="video-corner bl"></div>
         <div class="video-corner br"></div>
-        <video
-          src="3d-campus.mp4"
-          controls
-          style="width:100%; height:100%; object-fit:cover; border-radius:20px; display:block;"
-        >
+        <video src="3d-campus.mp4" controls
+          style="width:100%; height:100%; object-fit:cover; border-radius:20px; display:block;">
           Tu navegador no soporta la reproducción de video.
         </video>
       </div>
     </div>
-
     <div class="dashboard-wrap" data-aos="fade-up">
       <div class="dash-sidebar">
         <div class="dash-logo mono">[CVAI]</div>
@@ -381,7 +640,7 @@
           <li>🗺️ Zonas</li>
           <li>👥 Usuarios</li>
           <li>🔥 Tendencias</li>
-          <li>⚙️ Config</li>
+          <li><a href="admin.html" style="color:inherit;text-decoration:none">⚙️ Admin</a></li>
         </ul>
         <div class="dash-status">
           <span class="dot green"></span><span class="mono">LIVE</span>
@@ -397,7 +656,7 @@
         <div class="dash-charts">
           <div class="chart-card">
             <div class="chart-title">Áreas más visitadas</div>
-            <div class="bar-chart">
+            <div class="bar-chart" id="dashZonas">
               <div class="bar-row"><span class="bar-lbl">Lab IA</span><div class="bar-track"><div class="bar-fill" style="width:88%">88%</div></div></div>
               <div class="bar-row"><span class="bar-lbl">Dev Hub</span><div class="bar-track"><div class="bar-fill cyan" style="width:74%">74%</div></div></div>
               <div class="bar-row"><span class="bar-lbl">Hall</span><div class="bar-track"><div class="bar-fill purple" style="width:65%">65%</div></div></div>
@@ -427,11 +686,11 @@
   </div>
 </section>
 
-<!-- TIMELINE -->
+<!-- ══ TIMELINE ══ -->
 <section id="timeline">
   <div class="container">
     <div class="section-header" data-aos="fade-up">
-      <span class="section-eyebrow mono">// 007 — ROADMAP</span>
+      <span class="section-eyebrow mono">// 008 — ROADMAP</span>
       <h2>Del concepto al <span class="accent">metaverso</span></h2>
     </div>
     <div class="timeline-track" data-aos="fade-up">
@@ -466,8 +725,8 @@
         <div class="tl-node active-node">◉</div>
         <div class="tl-content">
           <div class="tl-phase mono">FASE 04</div>
-          <h4>Integración IA</h4>
-          <p>Implementación del Mentor IA y sistema de recomendaciones.</p>
+          <h4>Integración IA + FiftyOne</h4>
+          <p>Mentor IA, Node.js API, visión computacional y galería inteligente.</p>
           <span class="tl-tag active-tag">EN CURSO</span>
         </div>
       </div>
@@ -475,8 +734,8 @@
         <div class="tl-node pending">○</div>
         <div class="tl-content">
           <div class="tl-phase mono">FASE 05</div>
-          <h4>Analítica</h4>
-          <p>Dashboard de métricas y sistema de visualización de datos.</p>
+          <h4>Analítica Avanzada</h4>
+          <p>Dashboard coordinadores con métricas reales y exportación de reportes.</p>
           <span class="tl-tag pending-tag">PRÓXIMO</span>
         </div>
       </div>
@@ -493,11 +752,11 @@
   </div>
 </section>
 
-<!-- TEAM -->
+<!-- ══ TEAM ══ -->
 <section id="team">
   <div class="container">
     <div class="section-header" data-aos="fade-up">
-      <span class="section-eyebrow mono">// 008 — EQUIPO</span>
+      <span class="section-eyebrow mono">// 009 — EQUIPO</span>
       <h2>Las mentes detrás del <span class="accent">futuro</span></h2>
     </div>
     <div class="team-grid">
@@ -560,7 +819,7 @@
   </div>
 </section>
 
-<!-- FOOTER -->
+<!-- ══ FOOTER ══ -->
 <footer id="footer">
   <div class="footer-glow"></div>
   <div class="container">
@@ -574,8 +833,8 @@
         <h5>Stack Tecnológico</h5>
         <div class="tech-tags">
           <span>Roblox Studio</span><span>Three.js</span><span>JavaScript</span>
-          <span>TypeScript</span><span>HTML5</span><span>CSS3</span>
-          <span>GSAP</span><span>IA Generativa</span><span>Spline</span><span>Particles.js</span>
+          <span>Node.js</span><span>FiftyOne</span><span>Python</span>
+          <span>HTML5</span><span>CSS3</span><span>GSAP</span><span>IA Generativa</span>
         </div>
       </div>
     </div>
@@ -586,6 +845,556 @@
   </div>
 </footer>
 
-<script src="script.js"></script>
+<!-- ══════════════════════════════════════════════════════
+     SCRIPT PRINCIPAL — conecta todo el ecosistema
+     · Three.js background
+     · Particles.js
+     · AOS animations
+     · Mentor IA → Node.js API (fallback local)
+     · Galería preview → /api/gallery (FiftyOne)
+     · Analytics → /api/analytics/evento
+     · Status bar del servidor
+     · KPIs reales del dashboard
+══════════════════════════════════════════════════════ -->
+<script>
+'use strict';
+
+/* ── Configuración central ─────────────────────── */
+const API_BASE    = 'http://localhost:3000/api';
+const WEBHOOK_URL = ''; // ← Pon tu webhook aquí si tienes
+
+/* ══════════════════════════════════════════════
+   1. VERIFICAR SERVIDOR NODE.JS
+   Cada 8 segundos chequea si el servidor está activo
+   y actualiza la barra de estado inferior izquierda
+══════════════════════════════════════════════ */
+let serverOnline = false;
+
+async function checkServer() {
+  try {
+    const r = await fetch(`${API_BASE}/gallery/stats`, { signal: AbortSignal.timeout(2500) });
+    if (r.ok) {
+      serverOnline = true;
+      document.getElementById('serverStatusBar').className = 'server-status-bar online';
+      document.getElementById('serverStatusText').textContent = 'Node.js · API online';
+      document.getElementById('iaSourceLabel').textContent    = 'NODE.JS + IA';
+      document.getElementById('iaSourceLabel').style.color   = '#06d6a0';
+      document.getElementById('chatStatus').innerHTML =
+        '<span class="dot green"></span> En línea — Node.js activo';
+
+      // Cargar datos reales del dashboard si el servidor está activo
+      cargarDashboardReal();
+    }
+  } catch (_) {
+    serverOnline = false;
+    document.getElementById('serverStatusBar').className = 'server-status-bar offline';
+    document.getElementById('serverStatusText').textContent = 'Node.js — sin conexión (modo local)';
+  }
+}
+
+checkServer();
+setInterval(checkServer, 8000);
+
+
+/* ══════════════════════════════════════════════
+   2. CARGAR GALERÍA PREVIEW DESDE /api/gallery
+   Muestra 6 imágenes del campus analizadas por FiftyOne
+   Si no hay servidor, carga data/campus_gallery.json directo
+══════════════════════════════════════════════ */
+const ZONE_ICONS_MAP = {
+  'Laboratorio IA':  '🧬',
+  'Dev Hub':         '💻',
+  'Studio Creativo': '🎨',
+  'Hall Principal':  '🏛️',
+  'Innovation Hub':  '📡',
+  'Data Center':     '📊',
+  'Campus General':  '🌐',
+};
+
+async function cargarGaleriaPreview() {
+  const grid = document.getElementById('galleryPreviewGrid');
+
+  try {
+    // 1º intento: API Node.js
+    let data;
+    try {
+      const r = await fetch(`${API_BASE}/gallery`, { signal: AbortSignal.timeout(3000) });
+      data = await r.json();
+    } catch (_) {
+      // 2º intento: JSON estático
+      const r = await fetch('data/campus_gallery.json');
+      data = await r.json();
+    }
+
+    const items = (data.galeria || []).slice(0, 6);
+
+    if (items.length === 0) {
+      grid.innerHTML = renderPlaceholders();
+      return;
+    }
+
+    grid.innerHTML = items.map(img => {
+      const icono = ZONE_ICONS_MAP[img.zona] || '🌐';
+      const tags  = img.etiquetas.slice(0, 2).map(e =>
+        `<span class="gp-tag">${e.clase} ${Math.round(e.confianza * 100)}%</span>`
+      ).join('');
+
+      const imgHtml = (img.imagen && !img.imagen.includes('/demo/'))
+        ? `<img src="${img.imagen}" alt="${img.nombre}" onerror="this.style.display='none'">`
+        : '';
+
+      return `
+        <a href="gallery.html" class="gp-card" data-aos="fade-up">
+          <div class="gp-img">
+            ${imgHtml}
+            <span class="gp-zone-icon">${icono}</span>
+            <span class="gp-zone-label">${img.zona.toUpperCase()}</span>
+          </div>
+          <div class="gp-info">
+            <div class="gp-name">${img.nombre.replace(/-/g, ' ')}</div>
+            <div class="gp-tags">${tags || '<span class="gp-tag">sin etiquetas</span>'}</div>
+          </div>
+        </a>`;
+    }).join('');
+
+    AOS.refresh();
+
+  } catch (_) {
+    // Sin datos: mostrar placeholders visuales
+    grid.innerHTML = renderPlaceholders();
+  }
+}
+
+function renderPlaceholders() {
+  const zonas = [
+    { icono:'🧬', zona:'Laboratorio IA',  tags:['computadora 94%','estudiante 88%'] },
+    { icono:'💻', zona:'Dev Hub',          tags:['pantalla 96%','escritorio 79%'] },
+    { icono:'🏛️', zona:'Hall Principal',   tags:['avatar 91%','corredor 73%'] },
+    { icono:'🎨', zona:'Studio Creativo',  tags:['pantalla 92%','diseño 84%'] },
+    { icono:'📡', zona:'Innovation Hub',   tags:['zona 90%','avatar 83%'] },
+    { icono:'📊', zona:'Data Center',      tags:['servidor 89%','pantalla 82%'] },
+  ];
+
+  return zonas.map((z, i) => `
+    <a href="gallery.html" class="gp-card" data-aos="fade-up" data-aos-delay="${i * 60}">
+      <div class="gp-img">
+        <span class="gp-zone-icon">${z.icono}</span>
+        <span class="gp-zone-label">${z.zona.toUpperCase()}</span>
+      </div>
+      <div class="gp-info">
+        <div class="gp-name">${z.zona.toLowerCase().replace(/ /g,'-')}-zona-campus</div>
+        <div class="gp-tags">
+          ${z.tags.map(t => `<span class="gp-tag">${t}</span>`).join('')}
+        </div>
+      </div>
+    </a>`).join('');
+}
+
+cargarGaleriaPreview();
+
+
+/* ══════════════════════════════════════════════
+   3. MENTOR IA CON CONEXIÓN NODE.JS
+   Intenta /api/mentor, si falla usa respuestas locales
+══════════════════════════════════════════════ */
+const chatResponses = {
+  'ia':          '¡La IA es el corazón de Campuslands! Visita el **Laboratorio IA** para proyectos de ML, NLP y visión computacional. ¿Te guío hasta allá? 🧬',
+  'programa':    'Campuslands ofrece: **Desarrollo de Software**, **IA**, **Data Science**, **UX/UI** y **Cloud Computing**. ¿Cuál te llama más? 🎓',
+  'curso':       'Campuslands ofrece: **Desarrollo de Software**, **IA**, **Data Science**, **UX/UI** y **Cloud Computing**. ¿Cuál te llama más? 🎓',
+  'campus':      'El campus virtual tiene 5 zonas: **Hall** (entrada), **Lab IA**, **Dev Hub** (código), **Studio Creativo** y **Innovation Hub**. ¿Por cuál empezamos? 🗺️',
+  'roblox':      'El campus en **Roblox** es completamente navegable. Puedes interactuar con otros estudiantes, completar misiones y asistir a demos en vivo. 🎮',
+  'mision':      'Hay 4 niveles de misiones: Explorador (250 XP), Raro (500 XP), Épico (1000 XP) y Legendario (2500 XP). ¡Cada una desbloquea insignias! 🏆',
+  'galeria':     'La galería usa **FiftyOne** para analizar imágenes del campus con visión computacional. Detecta objetos automáticamente en cada zona. 🔬',
+  'fiftyone':    '**FiftyOne** es la plataforma de visión computacional que usamos. El plugin **zero-shot-prediction** detecta objetos en los screenshots del campus sin necesidad de entrenar un modelo. 🤖',
+  'hola':        '¡Hola! Soy tu Mentor IA de CampusVerse. Estoy aquí para guiarte por el campus virtual de Campuslands. ¿Qué te trae por aquí? 👋',
+  'default':     'Entiendo tu consulta. Como Mentor IA te recomiendo explorar el campus para encontrar la respuesta de forma experiencial. ¿En qué más puedo ayudarte? ✨',
+};
+
+function getResponseLocal(query) {
+  const q = query.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+  for (const [key, resp] of Object.entries(chatResponses)) {
+    if (key !== 'default' && q.includes(key)) return resp;
+  }
+  return chatResponses['default'];
+}
+
+function addMessage(text, isUser = false, source = '') {
+  const body = document.getElementById('chat-body');
+  if (!body) return;
+  const div = document.createElement('div');
+  div.className = `chat-msg ${isUser ? 'user' : 'bot'}`;
+
+  const sourceTag = (!isUser && source)
+    ? `<span class="chat-source-tag ${source}">${source.toUpperCase()}</span>`
+    : '';
+
+  div.innerHTML = `
+    ${!isUser ? '<span class="msg-icon">🤖</span>' : ''}
+    <div class="bubble">${text.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>')}${sourceTag}</div>
+    ${isUser ? '<span class="msg-icon" style="background:linear-gradient(135deg,#00d4ff,#8b5cf6)">👤</span>' : ''}
+  `;
+  body.appendChild(div);
+  body.scrollTop = body.scrollHeight;
+
+  // Registrar en analytics si no es del usuario
+  if (!isUser) {
+    registrarEvento('mentor_response', { respuesta: text.substring(0, 80) });
+  }
+}
+
+async function handleChatSend() {
+  const input = document.getElementById('chat-input');
+  if (!input) return;
+  const text = input.value.trim();
+  if (!text) return;
+
+  addMessage(text, true);
+  input.value = '';
+
+  // Registrar evento de chat
+  registrarEvento('mentor_chat', { mensaje: text });
+
+  // Webhook opcional
+  if (WEBHOOK_URL) {
+    fetch(WEBHOOK_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ event: 'mentor_chat_message', message: text, timestamp: new Date().toISOString() }),
+    }).catch(() => {});
+  }
+
+  // Intentar API Node.js
+  if (serverOnline) {
+    try {
+      const r    = await fetch(`${API_BASE}/mentor`, {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify({ mensaje: text }),
+        signal:  AbortSignal.timeout(5000),
+      });
+      const data = await r.json();
+      setTimeout(() => addMessage(data.respuesta, false, 'node'), 400);
+      return;
+    } catch (_) { /* cae a local */ }
+  }
+
+  // Fallback local
+  setTimeout(() => addMessage(getResponseLocal(text), false, 'local'), 700);
+}
+
+function sendSuggestion(btn) {
+  const input = document.getElementById('chat-input');
+  if (!input) return;
+  input.value = btn.textContent;
+  handleChatSend();
+}
+
+const chatInputEl = document.getElementById('chat-input');
+chatInputEl && chatInputEl.addEventListener('keydown', e => {
+  if (e.key === 'Enter') handleChatSend();
+});
+
+
+/* ══════════════════════════════════════════════
+   4. REGISTRAR EVENTOS EN NODE.JS
+   Cada visita a una sección, clic en mapa, etc.
+══════════════════════════════════════════════ */
+function registrarEvento(tipo, datos = {}) {
+  if (!serverOnline) return;
+  fetch(`${API_BASE}/analytics/evento`, {
+    method:  'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body:    JSON.stringify({ tipo, datos: { ...datos, timestamp: new Date().toISOString() } }),
+  }).catch(() => {});
+}
+
+// Registrar visita a secciones con IntersectionObserver
+const sectionObserver = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      registrarEvento('section_view', { seccion: e.target.id });
+    }
+  });
+}, { threshold: 0.3 });
+
+document.querySelectorAll('section[id]').forEach(s => sectionObserver.observe(s));
+
+// Registrar clics en nodos del mapa
+document.querySelectorAll('.map-node').forEach(node => {
+  node.addEventListener('click', () => {
+    registrarEvento('map_node_click', { zona: node.title });
+    mostrarToast(`📍 Zona: ${node.title}`, 'success');
+  });
+  node.addEventListener('mouseenter', () => {
+    node.querySelector('span').style.color = '#00d4ff';
+  });
+  node.addEventListener('mouseleave', () => {
+    node.querySelector('span').style.color = '';
+  });
+});
+
+
+/* ══════════════════════════════════════════════
+   5. CARGAR DATOS REALES DEL DASHBOARD
+   Cuando Node.js está activo, reemplaza las barras
+   con datos reales de FiftyOne
+══════════════════════════════════════════════ */
+async function cargarDashboardReal() {
+  try {
+    const r    = await fetch(`${API_BASE}/gallery/stats`);
+    const data = await r.json();
+
+    const zonas  = Object.entries(data.estadisticas_por_zona || {});
+    if (zonas.length === 0) return;
+
+    const maxF   = Math.max(...zonas.map(([,v]) => v.total_fotos), 1);
+    const colors = ['','cyan','purple','pink','gold',''];
+
+    const dashZonas = document.getElementById('dashZonas');
+    if (dashZonas) {
+      dashZonas.innerHTML = zonas.slice(0,5).map(([zona, stats], i) => {
+        const pct = Math.round((stats.total_fotos / maxF) * 100);
+        const lbl = zona.split(' ')[0];
+        return `
+          <div class="bar-row">
+            <span class="bar-lbl">${lbl}</span>
+            <div class="bar-track">
+              <div class="bar-fill ${colors[i]}" style="width:${pct}%">${pct}%</div>
+            </div>
+          </div>`;
+      }).join('');
+    }
+  } catch (_) {}
+}
+
+
+/* ══════════════════════════════════════════════
+   6. TOAST DE NOTIFICACIÓN
+══════════════════════════════════════════════ */
+function mostrarToast(msg, tipo = '') {
+  const t = document.getElementById('cvToast');
+  t.textContent = msg;
+  t.className   = `cv-toast ${tipo} show`;
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+
+/* ══════════════════════════════════════════════
+   7. AOS + GSAP + PARTICLES + THREE.JS
+   (código original del proyecto sin cambios)
+══════════════════════════════════════════════ */
+AOS.init({ duration: 700, easing: 'ease-out-cubic', once: true, offset: 60 });
+
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => {
+  navbar.classList.toggle('scrolled', window.scrollY > 40);
+}, { passive: true });
+
+const hamburger = document.getElementById('hamburger');
+hamburger && hamburger.addEventListener('click', () => {
+  const links = document.querySelector('.nav-links');
+  if (!links) return;
+  const open = links.style.display === 'flex';
+  links.style.cssText = open ? '' :
+    'display:flex;flex-direction:column;position:fixed;top:70px;left:0;right:0;background:rgba(5,8,16,0.97);backdrop-filter:blur(20px);padding:24px;gap:20px;z-index:999;border-bottom:1px solid rgba(0,212,255,0.15)';
+});
+
+if (window.particlesJS) {
+  particlesJS('particles-js', {
+    particles: {
+      number: { value: 60, density: { enable: true, value_area: 1000 } },
+      color: { value: ['#00d4ff','#8b5cf6','#06d6a0'] },
+      shape: { type: 'circle' },
+      opacity: { value: 0.35, random: true, anim: { enable: true, speed: 1, opacity_min: 0.05 } },
+      size: { value: 2, random: true },
+      line_linked: { enable: true, distance: 130, color: '#00d4ff', opacity: 0.08, width: 1 },
+      move: { enable: true, speed: 1.0, direction: 'none', random: true, out_mode: 'out' },
+    },
+    interactivity: {
+      detect_on: 'canvas',
+      events: { onhover: { enable: true, mode: 'grab' }, onclick: { enable: true, mode: 'push' } },
+      modes: { grab: { distance: 160, line_linked: { opacity: 0.3 } }, push: { particles_nb: 2 } },
+    },
+    retina_detect: true,
+  });
+}
+
+/* Three.js background global */
+(function initGlobalBackground() {
+  const canvas = document.getElementById('global-bg-canvas');
+  if (!canvas || !window.THREE) return;
+  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: false });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  const scene  = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 200);
+  camera.position.set(0, 0, 6);
+  const gridHelper  = new THREE.GridHelper(60, 50, 0x00d4ff, 0x00d4ff);
+  gridHelper.material.opacity = 0.05; gridHelper.material.transparent = true;
+  gridHelper.position.y = -5; gridHelper.rotation.x = Math.PI / 8;
+  scene.add(gridHelper);
+  const gridHelper2 = new THREE.GridHelper(60, 50, 0x8b5cf6, 0x8b5cf6);
+  gridHelper2.material.opacity = 0.03; gridHelper2.material.transparent = true;
+  gridHelper2.position.y = 5; gridHelper2.rotation.x = -Math.PI / 8;
+  scene.add(gridHelper2);
+  const sphereGeo = new THREE.SphereGeometry(0.05, 6, 6);
+  const colors = [0x00d4ff, 0x8b5cf6, 0x06d6a0, 0xec4899];
+  const floaters = [];
+  for (let i = 0; i < 50; i++) {
+    const mat  = new THREE.MeshBasicMaterial({ color: colors[i % colors.length], transparent: true, opacity: 0.4 + Math.random() * 0.3 });
+    const mesh = new THREE.Mesh(sphereGeo, mat);
+    mesh.position.set((Math.random()-0.5)*30, (Math.random()-0.5)*18, (Math.random()-0.5)*12-3);
+    mesh.userData = { vx:(Math.random()-0.5)*0.004, vy:(Math.random()-0.5)*0.003, vz:(Math.random()-0.5)*0.002, phase:Math.random()*Math.PI*2 };
+    scene.add(mesh); floaters.push(mesh);
+  }
+  window.addEventListener('resize', () => {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+  });
+  let frame = 0;
+  function animate() {
+    requestAnimationFrame(animate); frame++;
+    const t = frame * 0.006;
+    gridHelper.rotation.z  = t * 0.0003;
+    gridHelper2.rotation.z = -t * 0.0002;
+    floaters.forEach(f => {
+      f.position.x += f.userData.vx;
+      f.position.y += f.userData.vy + Math.sin(t + f.userData.phase) * 0.001;
+      f.position.z += f.userData.vz;
+      if (Math.abs(f.position.x) > 15) f.userData.vx *= -1;
+      if (Math.abs(f.position.y) > 9)  f.userData.vy *= -1;
+      if (f.position.z > 2 || f.position.z < -10) f.userData.vz *= -1;
+    });
+    camera.position.x = Math.sin(t * 0.08) * 0.4;
+    camera.position.y = Math.cos(t * 0.06) * 0.2;
+    camera.lookAt(0, 0, 0);
+    renderer.render(scene, camera);
+  }
+  animate();
+})();
+
+if (window.gsap && window.ScrollTrigger) {
+  gsap.registerPlugin(ScrollTrigger);
+  gsap.from('.hero-title', { duration:1.2, y:60, opacity:0, ease:'power4.out', delay:0.3 });
+  gsap.from('.hero-sub',   { duration:1,   y:30, opacity:0, ease:'power3.out', delay:0.6 });
+  gsap.to('#robot-wrap', { y:60, scrollTrigger: { trigger:'#hero', start:'top top', end:'bottom top', scrub:true } });
+}
+
+/* Contadores animados */
+function animateCounter(el) {
+  const target = parseInt(el.dataset.target, 10);
+  const start  = performance.now();
+  function update(now) {
+    const p = Math.min((now - start) / 1800, 1);
+    el.textContent = Math.floor((1 - Math.pow(1-p, 3)) * target);
+    if (p < 1) requestAnimationFrame(update);
+  }
+  requestAnimationFrame(update);
+}
+const counterObs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { animateCounter(e.target); counterObs.unobserve(e.target); } });
+}, { threshold: 0.5 });
+document.querySelectorAll('.stat-num').forEach(c => counterObs.observe(c));
+
+/* KPI live random */
+function randomDelta(val, range) { return Math.max(1, val + Math.floor((Math.random()-0.5)*range)); }
+setInterval(() => {
+  const k1 = document.getElementById('kpi1');
+  const k4 = document.getElementById('kpi4');
+  if (k1) k1.textContent = randomDelta(parseInt(k1.textContent)||247, 6);
+  if (k4) k4.textContent = randomDelta(parseInt(k4.textContent)||38, 3);
+}, 3000);
+
+/* Donut chart */
+(function drawDonut() {
+  const canvas = document.getElementById('donutChart');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const data = [38,27,20,15], colors = ['#00d4ff','#8b5cf6','#06d6a0','#f59e0b'];
+  const cx = 80, cy = 80, R = 68, r = 46;
+  let angle = -Math.PI / 2;
+  data.forEach((d,i) => {
+    const slice = (d/100)*2*Math.PI;
+    ctx.beginPath(); ctx.moveTo(cx,cy);
+    ctx.arc(cx,cy,R,angle,angle+slice);
+    ctx.arc(cx,cy,r,angle+slice,angle,true);
+    ctx.closePath(); ctx.fillStyle = colors[i]; ctx.fill();
+    angle += slice;
+  });
+  ctx.fillStyle='#e8f4ff'; ctx.font='bold 22px Orbitron,monospace';
+  ctx.textAlign='center'; ctx.textBaseline='middle';
+  ctx.fillText('AI',cx,cy-8);
+  ctx.font='10px JetBrains Mono,monospace'; ctx.fillStyle='#8ba3c7';
+  ctx.fillText('TRENDS',cx,cy+12);
+})();
+
+/* Line chart animado */
+(function drawLine() {
+  const canvas = document.getElementById('lineChart');
+  if (!canvas) return;
+  canvas.width  = canvas.parentElement.offsetWidth - 40;
+  canvas.height = 70;
+  const ctx    = canvas.getContext('2d');
+  const points = Array.from({length:20}, (_,i) => 30 + Math.sin(i*0.5)*20 + Math.random()*10);
+  function draw() {
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    const w=canvas.width, h=canvas.height, stepX=w/(points.length-1);
+    const maxY=Math.max(...points), toY=v=>h-(v/maxY)*(h-6)-3;
+    const grad=ctx.createLinearGradient(0,0,0,h);
+    grad.addColorStop(0,'rgba(0,212,255,0.25)'); grad.addColorStop(1,'rgba(0,212,255,0)');
+    ctx.beginPath(); ctx.moveTo(0,h);
+    points.forEach((p,i) => ctx.lineTo(i*stepX,toY(p)));
+    ctx.lineTo(w,h); ctx.closePath(); ctx.fillStyle=grad; ctx.fill();
+    ctx.beginPath(); ctx.moveTo(0,toY(points[0]));
+    points.forEach((p,i) => ctx.lineTo(i*stepX,toY(p)));
+    ctx.strokeStyle='#00d4ff'; ctx.lineWidth=2; ctx.stroke();
+  }
+  draw();
+  setInterval(() => { points.shift(); points.push(30+Math.random()*40); draw(); }, 800);
+})();
+
+/* Feature cards neon trail */
+document.querySelectorAll('.feature-card').forEach(card => {
+  card.addEventListener('mousemove', e => {
+    const r = card.getBoundingClientRect();
+    const x = ((e.clientX-r.left)/r.width)*100;
+    const y = ((e.clientY-r.top)/r.height)*100;
+    card.style.background = `radial-gradient(circle at ${x}% ${y}%, rgba(0,212,255,0.09), rgba(10,14,28,0.7) 60%)`;
+  });
+  card.addEventListener('mouseleave', () => { card.style.background=''; });
+});
+
+/* Progress bars animadas */
+const pbObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const w = e.target.style.width;
+      e.target.style.width = '0%';
+      setTimeout(() => { e.target.style.width = w; }, 100);
+      pbObs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.5 });
+document.querySelectorAll('.progress-bar').forEach(b => pbObs.observe(b));
+
+/* Smooth scroll */
+document.querySelectorAll('a[href^="#"]').forEach(link => {
+  link.addEventListener('click', e => {
+    const id = link.getAttribute('href').slice(1);
+    const target = document.getElementById(id);
+    if (target) {
+      e.preventDefault();
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      const links = document.querySelector('.nav-links');
+      if (links && links.style.display === 'flex') links.style.cssText = '';
+    }
+  });
+});
+
+/* Console easter egg */
+console.log('%c\n CampusVerse AI — Hackathon Campuslands 2026\n Node.js + FiftyOne + Three.js + IA\n Built with ❤️ in Colombia\n','color:#00d4ff;font-size:10px;font-family:monospace');
+</script>
+
 </body>
 </html>

@@ -1,0 +1,23 @@
+{
+  "name": "campusverse-ai",
+  "version": "1.0.0",
+  "description": "Campus virtual de Campuslands con IA, FiftyOne y Node.js",
+  "main": "server.js",
+  "scripts": {
+    "start":   "node server.js",
+    "dev":     "npx nodemon server.js",
+    "fiftyone": "python fiftyone_campus.py"
+  },
+  "dependencies": {
+    "cors":       "^2.8.5",
+    "dotenv":     "^16.3.1",
+    "express":    "^4.18.2",
+    "node-fetch": "^3.3.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  },
+  "keywords": ["campuslands", "roblox", "ia", "fiftyone", "hackathon"],
+  "author": "Sergio Velasco Daza",
+  "license": "MIT"
+}

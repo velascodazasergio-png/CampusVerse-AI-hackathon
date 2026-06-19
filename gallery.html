@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CampusVerse AI — Galería del Campus</title>
+  <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet"/>
+  <style>
+    /* ── Galería ──────────────────────────────── */
+    .gallery-page {
+      min-height: 100vh;
+      padding: 120px 0 80px;
+      position: relative;
+      z-index: 1;
+      background: rgba(5, 8, 22, 0.60);
+      backdrop-filter: blur(6px);
+    }
+
+    .gallery-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .gallery-header h1 {
+      font-family: 'Orbitron', monospace;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 700;
+      margin: 12px 0;
+    }
+
+    /* Barra de filtros */
+    .filter-bar {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 40px;
+    }
+
+    .filter-btn {
+      padding: 8px 18px;
+      border: 1px solid rgba(0, 212, 255, 0.3);
+      border-radius: 20px;
+      background: rgba(0, 212, 255, 0.06);
+      color: #8ba3c7;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .filter-btn:hover,
+    .filter-btn.active {
+      background: rgba(0, 212, 255, 0.15);
+      border-color: #00d4ff;
+      color: #00d4ff;
+    }
+
+    /* Stats de FiftyOne */
+    .fiftyone-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-bottom: 48px;
+    }
+
+    .fo-stat {
+      background: rgba(10, 14, 28, 0.7);
+      border: 1px solid rgba(0, 212, 255, 0.15);
+      border-radius: 10px;
+      padding: 18px 20px;
+      text-align: center;
+    }
+
+    .fo-stat-val {
+      display: block;
+      font-family: 'Orbitron', monospace;
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #00d4ff;
+    }
+
+    .fo-stat-lbl {
+      font-size: 0.72rem;
+      color: #8ba3c7;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-top: 4px;
+      display: block;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .fo-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(139, 92, 246, 0.1);
+      border: 1px solid rgba(139, 92, 246, 0.3);
+      border-radius: 6px;
+      padding: 6px 14px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      color: #8b5cf6;
+      letter-spacing: 0.1em;
+      margin-bottom: 32px;
+    }
+
+    /* Grid de imágenes */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+    }
+
+    .gallery-card {
+      background: rgba(10, 14, 28, 0.7);
+      border: 1px solid rgba(0, 212, 255, 0.12);
+      border-radius: 14px;
+      overflow: hidden;
+      transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+      cursor: pointer;
+    }
+
+    .gallery-card:hover {
+      transform: translateY(-6px);
+      border-color: #00d4ff;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5), 0 0 20px rgba(0, 212, 255, 0.1);
+    }
+
+    /* Imagen placeholder cuando no hay foto real */
+    .gallery-img-wrap {
+      position: relative;
+      width: 100%;
+      height: 200px;
+      overflow: hidden;
+      background: linear-gradient(135deg, #0a0e1c, #0d1a2e);
+    }
+
+    .gallery-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+
+    .gallery-card:hover .gallery-img-wrap img {
+      transform: scale(1.06);
+    }
+
+    .gallery-img-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+    }
+
+    .gallery-img-placeholder .zone-icon {
+      font-size: 3rem;
+      filter: drop-shadow(0 0 12px #00d4ff);
+    }
+
+    .gallery-img-placeholder .zone-name {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      color: #8ba3c7;
+      letter-spacing: 0.12em;
+    }
+
+    /* Etiquetas detectadas por FiftyOne */
+    .gallery-tags {
+      position: absolute;
+      bottom: 8px;
+      left: 8px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+    }
+
+    .gallery-tag {
+      background: rgba(0, 0, 0, 0.75);
+      border: 1px solid rgba(0, 212, 255, 0.4);
+      border-radius: 4px;
+      padding: 2px 7px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem;
+      color: #00d4ff;
+      letter-spacing: 0.06em;
+    }
+
+    .gallery-tag .confidence {
+      color: #8b5cf6;
+      margin-left: 3px;
+    }
+
+    /* Zona badge */
+    .zona-badge {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: rgba(0, 0, 0, 0.8);
+      border: 1px solid rgba(0, 212, 255, 0.3);
+      border-radius: 6px;
+      padding: 3px 10px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem;
+      color: #00d4ff;
+      letter-spacing: 0.08em;
+    }
+
+    /* Info de la card */
+    .gallery-info {
+      padding: 16px;
+    }
+
+    .gallery-name {
+      font-family: 'Orbitron', monospace;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: #e8f4ff;
+      margin-bottom: 6px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .gallery-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      color: #4a6080;
+    }
+
+    .obj-count {
+      color: #8b5cf6;
+      font-weight: 600;
+    }
+
+    /* Estado de carga */
+    .loading-state {
+      text-align: center;
+      padding: 80px 20px;
+      color: #8ba3c7;
+    }
+
+    .loading-spinner {
+      width: 40px;
+      height: 40px;
+      border: 2px solid rgba(0, 212, 255, 0.2);
+      border-top-color: #00d4ff;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 16px;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .error-state {
+      text-align: center;
+      padding: 60px 20px;
+      border: 1px dashed rgba(0, 212, 255, 0.2);
+      border-radius: 14px;
+    }
+
+    .error-state h3 {
+      font-family: 'Orbitron', monospace;
+      font-size: 1rem;
+      color: #e8f4ff;
+      margin-bottom: 12px;
+    }
+
+    .error-state code {
+      display: block;
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(0, 212, 255, 0.15);
+      border-radius: 8px;
+      padding: 16px 20px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+      color: #00d4ff;
+      text-align: left;
+      margin-top: 16px;
+      line-height: 1.8;
+    }
+
+    /* Responsive */
+    @media (max-width: 640px) {
+      .gallery-grid { grid-template-columns: 1fr; }
+      .fiftyone-stats { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+
+<canvas id="global-bg-canvas"></canvas>
+
+<!-- NAV -->
+<nav id="navbar" class="scrolled">
+  <div class="nav-inner">
+    <div class="nav-logo">
+      <span class="logo-bracket">[</span>
+      <span class="logo-text">CV<span class="logo-accent">AI</span></span>
+      <span class="logo-bracket">]</span>
+    </div>
+    <ul class="nav-links">
+      <li><a href="index.html">Inicio</a></li>
+      <li><a href="index.html#features">Funciones</a></li>
+      <li><a href="index.html#mentor">Mentor IA</a></li>
+      <li><a href="gallery.html" style="color:#00d4ff">Galería</a></li>
+      <li><a href="admin.html">Dashboard</a></li>
+    </ul>
+    <a href="index.html" class="nav-cta">← Volver</a>
+  </div>
+</nav>
+
+<!-- GALERÍA -->
+<main class="gallery-page">
+  <div class="container">
+
+    <div class="gallery-header" data-aos="fade-up">
+      <span class="section-eyebrow mono">// GALERÍA MULTIMEDIA — ANÁLISIS CON IA</span>
+      <h1>Campus <span class="accent">Visual</span></h1>
+      <p class="section-desc">Imágenes del campus de Roblox analizadas automáticamente con visión computacional.</p>
+    </div>
+
+    <!-- Badge FiftyOne -->
+    <div style="text-align:center; margin-bottom:32px">
+      <span class="fo-badge">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="#8b5cf6"><circle cx="12" cy="12" r="10"/></svg>
+        Powered by FiftyOne · zero-shot-prediction-plugin · Voxel51
+      </span>
+    </div>
+
+    <!-- Stats de FiftyOne -->
+    <div class="fiftyone-stats" id="foStats" data-aos="fade-up">
+      <div class="fo-stat">
+        <span class="fo-stat-val" id="totalImagenes">—</span>
+        <span class="fo-stat-lbl">Imágenes analizadas</span>
+      </div>
+      <div class="fo-stat">
+        <span class="fo-stat-val" id="totalObjetos">—</span>
+        <span class="fo-stat-lbl">Objetos detectados</span>
+      </div>
+      <div class="fo-stat">
+        <span class="fo-stat-val" id="totalZonas">—</span>
+        <span class="fo-stat-lbl">Zonas del campus</span>
+      </div>
+      <div class="fo-stat">
+        <span class="fo-stat-val" id="claseTop">—</span>
+        <span class="fo-stat-lbl">Objeto más frecuente</span>
+      </div>
+    </div>
+
+    <!-- Filtros por zona -->
+    <div class="filter-bar" id="filterBar" data-aos="fade-up">
+      <button class="filter-btn active" onclick="filtrarGaleria('todas', this)">Todas las zonas</button>
+    </div>
+
+    <!-- Grid de galería -->
+    <div id="galleryGrid">
+      <div class="loading-state">
+        <div class="loading-spinner"></div>
+        <p>Cargando galería desde la API...</p>
+        <p style="font-size:0.75rem; margin-top:8px; font-family:'JetBrains Mono',monospace; color:#4a6080">
+          GET /api/gallery
+        </p>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+<script src="script.js"></script>
+<script>
+  // ── Iconos por zona ──
+  const ZONE_ICONS = {
+    'Laboratorio IA':   '🧬',
+    'Dev Hub':          '💻',
+    'Studio Creativo':  '🎨',
+    'Hall Principal':   '🏛️',
+    'Innovation Hub':   '📡',
+    'Data Center':      '📊',
+    'Campus General':   '🌐',
+  };
+
+  let galeriaCompleta = [];
+
+  // ── Cargar datos de la API ──
+  async function cargarGaleria() {
+    try {
+      // Intentar API local del servidor Node.js
+      const res  = await fetch('http://localhost:3000/api/gallery');
+      const data = await res.json();
+      renderGaleria(data);
+
+    } catch (err) {
+      // Si el servidor no corre, intentar leer el JSON directamente
+      try {
+        const res  = await fetch('data/campus_gallery.json');
+        const data = await res.json();
+        renderGaleria(data);
+      } catch (_) {
+        mostrarError();
+      }
+    }
+  }
+
+  function renderGaleria(data) {
+    galeriaCompleta = data.galeria || [];
+
+    // Actualizar stats
+    const totalObj = galeriaCompleta.reduce((a, img) => a + img.total_objetos, 0);
+    const zonas    = Object.keys(data.estadisticas_por_zona || {});
+    const clases   = {};
+    galeriaCompleta.forEach(img => {
+      img.etiquetas.forEach(e => {
+        clases[e.clase] = (clases[e.clase] || 0) + 1;
+      });
+    });
+    const claseTop = Object.entries(clases).sort((a,b) => b[1]-a[1])[0]?.[0] || '—';
+
+    document.getElementById('totalImagenes').textContent = data.total_imagenes || 0;
+    document.getElementById('totalObjetos').textContent  = totalObj;
+    document.getElementById('totalZonas').textContent    = zonas.length;
+    document.getElementById('claseTop').textContent      = claseTop;
+
+    // Agregar filtros
+    const filterBar = document.getElementById('filterBar');
+    zonas.forEach(zona => {
+      const btn = document.createElement('button');
+      btn.className   = 'filter-btn';
+      btn.textContent = zona;
+      btn.onclick     = () => filtrarGaleria(zona, btn);
+      filterBar.appendChild(btn);
+    });
+
+    // Renderizar cards
+    renderCards(galeriaCompleta);
+  }
+
+  function renderCards(items) {
+    const grid = document.getElementById('galleryGrid');
+
+    if (items.length === 0) {
+      grid.innerHTML = `<div class="error-state"><h3>Sin imágenes en esta zona</h3></div>`;
+      return;
+    }
+
+    grid.innerHTML = `<div class="gallery-grid">${items.map(crearCard).join('')}</div>`;
+  }
+
+  function crearCard(img) {
+    const icono    = ZONE_ICONS[img.zona] || '🌐';
+    const tagsHtml = img.etiquetas.slice(0, 3).map(e =>
+      `<span class="gallery-tag">${e.clase}<span class="confidence">${Math.round(e.confianza * 100)}%</span></span>`
+    ).join('');
+
+    // Imagen real o placeholder visual
+    const imgHtml = img.imagen && !img.imagen.includes('/demo/')
+      ? `<img src="${img.imagen}" alt="${img.nombre}" onerror="this.parentElement.innerHTML=this.parentElement.innerHTML.replace('<img','<div class=gallery-img-placeholder>').replace('/>','')"  />`
+      : `<div class="gallery-img-placeholder">
+           <span class="zone-icon">${icono}</span>
+           <span class="zone-name">${img.zona.toUpperCase()}</span>
+         </div>`;
+
+    return `
+      <div class="gallery-card" data-aos="fade-up">
+        <div class="gallery-img-wrap">
+          ${imgHtml}
+          <span class="zona-badge">${icono} ${img.zona}</span>
+          <div class="gallery-tags">${tagsHtml}</div>
+        </div>
+        <div class="gallery-info">
+          <div class="gallery-name">${img.nombre.replace(/-/g, ' ')}</div>
+          <div class="gallery-meta">
+            <span>Análisis FiftyOne</span>
+            <span class="obj-count">${img.total_objetos} objeto${img.total_objetos !== 1 ? 's' : ''} detectado${img.total_objetos !== 1 ? 's' : ''}</span>
+          </div>
+        </div>
+      </div>`;
+  }
+
+  function filtrarGaleria(zona, btnEl) {
+    // Actualizar botón activo
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    if (btnEl) btnEl.classList.add('active');
+
+    const filtrado = zona === 'todas'
+      ? galeriaCompleta
+      : galeriaCompleta.filter(img => img.zona === zona);
+
+    renderCards(filtrado);
+    AOS.refresh();
+  }
+
+  function mostrarError() {
+    document.getElementById('galleryGrid').innerHTML = `
+      <div class="error-state">
+        <h3>⚠ Servidor no detectado</h3>
+        <p style="color:#8ba3c7; font-size:0.85rem; margin-bottom:16px">
+          Para ver la galería necesitas correr el servidor Node.js y el script de FiftyOne.
+        </p>
+        <code>
+# 1. Instalar dependencias Python<br/>
+pip install fiftyone torch transformers<br/><br/>
+# 2. Instalar el plugin de FiftyOne<br/>
+fiftyone plugins download https://github.com/jacobmarks/zero-shot-prediction-plugin<br/><br/>
+# 3. Agregar screenshots en screenshots/campus/<br/><br/>
+# 4. Generar la galería con IA<br/>
+python fiftyone_campus.py<br/><br/>
+# 5. Arrancar el servidor Node.js<br/>
+npm install &amp;&amp; npm start
+        </code>
+      </div>`;
+  }
+
+  // Inicializar
+  AOS.init({ duration: 600, once: true, offset: 40 });
+  cargarGaleria();
+</script>
+</body>
+</html>
