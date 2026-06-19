@@ -23,8 +23,13 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
   <!-- Particles.js -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
+  <!-- Spline Viewer -->
+  <script type="module" src="https://unpkg.com/@splinetool/viewer@1.9.82/build/spline-viewer.js"></script>
 </head>
 <body>
+
+<!-- ══ GLOBAL 3D BACKGROUND CANVAS ══ -->
+<canvas id="global-bg-canvas"></canvas>
 
 <!-- ══════════════════════════════════════════ NAV ══════════════════════════════════════════ -->
 <nav id="navbar">
@@ -51,32 +56,38 @@
 <!-- ══════════════════════════════════════════ HERO ══════════════════════════════════════════ -->
 <section id="hero">
   <div id="particles-js"></div>
-  <canvas id="hero-canvas"></canvas>
 
-  <div class="hero-content">
-    <div class="hero-eyebrow" data-aos="fade-down" data-aos-duration="800">
-      <span class="dot pulse"></span> HACKATHON CAMPUSLANDS 2026
-    </div>
-    <h1 class="hero-title" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="100">
-      CAMPUS<span class="hero-accent">VERSE</span> AI
-    </h1>
-    <p class="hero-sub" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="250">
-      Explora Campuslands desde cualquier lugar del mundo mediante<br/>
-      una experiencia virtual impulsada por Inteligencia Artificial.
-    </p>
-    <div class="hero-buttons" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="400">
-      <a href="#about" class="btn-primary">Explorar Proyecto</a>
-      <a href="#virtual-tour" class="btn-ghost">
-        <span class="btn-icon">▶</span> Ingresar al Mundo Virtual
-      </a>
+  <!-- HERO TITLE — FLOATING ANIMATED -->
+  <div class="hero-title-wrap" id="hero-title-wrap">
+    <div class="hero-title-inner" data-aos="fade-down" data-aos-duration="1200">
+      <div class="hero-eyebrow">
+        <span class="dot pulse"></span> HACKATHON CAMPUSLANDS 2026
+      </div>
+      <h1 class="hero-title">
+        CAMPUS<span class="hero-accent">VERSE</span><br/>
+        <span class="hero-title-ai">AI</span>
+      </h1>
+      <p class="hero-sub">
+        Explora Campuslands desde cualquier lugar del mundo mediante<br/>
+        una experiencia virtual impulsada por Inteligencia Artificial.
+      </p>
+      <div class="hero-buttons">
+        <a href="#about" class="btn-primary">Explorar Proyecto</a>
+        <a href="#virtual-tour" class="btn-ghost">
+          <span class="btn-icon">▶</span> Ingresar al Mundo Virtual
+        </a>
+      </div>
     </div>
     <div class="hero-scan-line"></div>
   </div>
 
+  <!-- SPLINE ROBOT -->
   <div class="hero-robot-wrap" id="robot-wrap">
-    <div class="robot-hologram-ring"></div>
-    <div class="robot-hologram-ring ring-2"></div>
-    <canvas id="robot-canvas"></canvas>
+    <div class="hero-spline">
+      <spline-viewer url="https://prod.spline.design/ZXK8zHXl5zTQ7O0i/scene.splinecode"></spline-viewer>
+      <!-- Watermark cover -->
+      <div class="spline-watermark-cover"></div>
+    </div>
     <div class="robot-label">
       <span class="mono">MENTOR_AI_v2.6</span>
       <span class="robot-status"><span class="dot green"></span>ONLINE</span>
@@ -169,56 +180,25 @@
       <h2>Explora el <span class="accent">Campus Digital</span></h2>
     </div>
 
-    <div class="tour-gallery" data-aos="fade-up">
-      <div class="tour-card main-card">
-        <div class="tour-card-img" style="background: linear-gradient(135deg, #0d1b2a 0%, #1a0533 100%);">
-          <div class="tour-placeholder-icon">🏛️</div>
-          <div class="tour-overlay">
-            <span class="tour-zone">ZONA CENTRAL</span>
-            <span class="tour-badge">ÁREA PRINCIPAL</span>
-          </div>
+    <!-- VIDEO PLACEHOLDER — REEMPLAZA CON TU VIDEO -->
+    <div class="video-placeholder" data-aos="fade-up" data-aos-delay="100">
+      <div class="video-placeholder-inner">
+        <div class="video-corner tl"></div>
+        <div class="video-corner tr"></div>
+        <div class="video-corner bl"></div>
+        <div class="video-corner br"></div>
+        <div class="video-scan"></div>
+        <div class="video-placeholder-content">
+          <div class="video-icon">▶</div>
+          <h3 class="video-placeholder-title">Recorrido Virtual del Campus</h3>
+          <p class="video-placeholder-desc">Coloca tu video aquí — reemplaza este bloque con tu etiqueta <code>&lt;video&gt;</code> o <code>&lt;iframe&gt;</code></p>
+          <div class="video-placeholder-badge mono">// VIDEO_TOUR_v1.0 · PRÓXIMAMENTE</div>
         </div>
-        <div class="tour-card-info">
-          <h4>Hall Principal</h4>
-          <p>Punto de partida del campus virtual</p>
-        </div>
-      </div>
-
-      <div class="tour-card">
-        <div class="tour-card-img" style="background: linear-gradient(135deg, #001a33 0%, #003366 100%);">
-          <div class="tour-placeholder-icon">🧬</div>
-          <div class="tour-overlay">
-            <span class="tour-zone">LAB IA</span>
-          </div>
-        </div>
-        <div class="tour-card-info"><h4>Laboratorio IA</h4><p>Experimenta con modelos de IA</p></div>
-      </div>
-
-      <div class="tour-card">
-        <div class="tour-card-img" style="background: linear-gradient(135deg, #0a001a 0%, #2d0050 100%);">
-          <div class="tour-placeholder-icon">💻</div>
-          <div class="tour-overlay"><span class="tour-zone">DEV HUB</span></div>
-        </div>
-        <div class="tour-card-info"><h4>Dev Hub</h4><p>Zona de desarrollo y código</p></div>
-      </div>
-
-      <div class="tour-card">
-        <div class="tour-card-img" style="background: linear-gradient(135deg, #001a1a 0%, #004444 100%);">
-          <div class="tour-placeholder-icon">🎨</div>
-          <div class="tour-overlay"><span class="tour-zone">DISEÑO</span></div>
-        </div>
-        <div class="tour-card-info"><h4>Studio Creativo</h4><p>Diseño UX/UI y experiencias</p></div>
-      </div>
-
-      <div class="tour-card">
-        <div class="tour-card-img" style="background: linear-gradient(135deg, #1a1a00 0%, #3a3a00 100%);">
-          <div class="tour-placeholder-icon">📡</div>
-          <div class="tour-overlay"><span class="tour-zone">INNOVA</span></div>
-        </div>
-        <div class="tour-card-info"><h4>Innovation Hub</h4><p>Proyectos del futuro</p></div>
       </div>
     </div>
+    <!-- FIN VIDEO PLACEHOLDER -->
 
+    <!-- MAPA -->
     <div class="tour-map" data-aos="fade-up">
       <div class="map-label mono">// MAPA_VIRTUAL_v1.0</div>
       <div class="campus-map">
@@ -357,7 +337,6 @@
         <div class="mission-progress"><div class="progress-bar" style="width:100%"></div></div>
         <span class="mission-status unlocked-label">✓ DESBLOQUEADO</span>
       </div>
-
       <div class="mission-card unlocked" data-aos="fade-up" data-aos-delay="100">
         <div class="mission-badge">🔍</div>
         <div class="mission-rarity rare">RARO</div>
@@ -367,7 +346,6 @@
         <div class="mission-progress"><div class="progress-bar" style="width:70%"></div></div>
         <span class="mission-status">7/10 INTERACCIONES</span>
       </div>
-
       <div class="mission-card" data-aos="fade-up" data-aos-delay="200">
         <div class="mission-badge">⚡</div>
         <div class="mission-rarity epic">ÉPICO</div>
@@ -377,7 +355,6 @@
         <div class="mission-progress"><div class="progress-bar" style="width:30%"></div></div>
         <span class="mission-status">3/10 MISIONES</span>
       </div>
-
       <div class="mission-card" data-aos="fade-up" data-aos-delay="300">
         <div class="mission-badge">👑</div>
         <div class="mission-rarity legendary">LEGENDARIO</div>
@@ -398,6 +375,24 @@
       <span class="section-eyebrow mono">// 006 — ANALÍTICA INTELIGENTE</span>
       <h2>Dashboard de <span class="accent">Datos</span> en Tiempo Real</h2>
     </div>
+
+    <!-- VIDEO PLACEHOLDER DASHBOARD -->
+    <div class="video-placeholder video-placeholder--sm" data-aos="fade-up" data-aos-delay="100">
+      <div class="video-placeholder-inner">
+        <div class="video-corner tl"></div>
+        <div class="video-corner tr"></div>
+        <div class="video-corner bl"></div>
+        <div class="video-corner br"></div>
+        <div class="video-scan"></div>
+        <div class="video-placeholder-content">
+          <div class="video-icon">▶</div>
+          <h3 class="video-placeholder-title">Demo del Dashboard de Analítica</h3>
+          <p class="video-placeholder-desc">Coloca tu video aquí — reemplaza este bloque con tu etiqueta <code>&lt;video&gt;</code> o <code>&lt;iframe&gt;</code></p>
+          <div class="video-placeholder-badge mono">// VIDEO_DASHBOARD_v1.0 · PRÓXIMAMENTE</div>
+        </div>
+      </div>
+    </div>
+    <!-- FIN VIDEO PLACEHOLDER -->
 
     <div class="dashboard-wrap" data-aos="fade-up">
       <div class="dash-sidebar">
@@ -433,7 +428,6 @@
               <div class="bar-row"><span class="bar-lbl">Innova</span><div class="bar-track"><div class="bar-fill gold" style="width:41%">41%</div></div></div>
             </div>
           </div>
-
           <div class="chart-card">
             <div class="chart-title">Tecnologías favoritas</div>
             <div class="donut-wrap">
@@ -464,7 +458,6 @@
       <span class="section-eyebrow mono">// 007 — ROADMAP</span>
       <h2>Del concepto al <span class="accent">metaverso</span></h2>
     </div>
-
     <div class="timeline-track" data-aos="fade-up">
       <div class="tl-item" data-aos="fade-up" data-aos-delay="0">
         <div class="tl-node done">✓</div>
@@ -531,9 +524,7 @@
       <span class="section-eyebrow mono">// 008 — EQUIPO</span>
       <h2>Las mentes detrás del <span class="accent">futuro</span></h2>
     </div>
-
     <div class="team-grid">
-
       <div class="team-card" data-aos="fade-up" data-aos-delay="0">
         <div class="team-avatar-wrap">
           <div class="team-avatar">SV</div>
@@ -542,15 +533,12 @@
         <h4>Sergio Velasco Daza</h4>
         <span class="team-role">Frontend Developer &amp; UX Designer</span>
         <p>Especialista en desarrollo frontend, diseño de interfaces modernas y experiencias digitales inmersivas. Arquitecto visual de CampusVerse AI.</p>
-        <div class="team-skills">
-          <span>HTML/CSS</span><span>Three.js</span><span>UX</span>
-        </div>
+        <div class="team-skills"><span>HTML/CSS</span><span>Three.js</span><span>UX</span></div>
         <div class="team-socials">
           <a href="#" title="GitHub">⌥</a>
           <a href="#" title="LinkedIn">in</a>
         </div>
       </div>
-
       <div class="team-card" data-aos="fade-up" data-aos-delay="100">
         <div class="team-avatar-wrap">
           <div class="team-avatar cyan">MS</div>
@@ -559,15 +547,12 @@
         <h4>Michael Fernando Santos</h4>
         <span class="team-role">Full Stack Developer &amp; Systems Architect</span>
         <p>Responsable de la planificación técnica y estructuración del ecosistema digital del proyecto. Integración de servicios y sistemas escalables.</p>
-        <div class="team-skills">
-          <span>Node.js</span><span>APIs</span><span>Arquitectura</span>
-        </div>
+        <div class="team-skills"><span>Node.js</span><span>APIs</span><span>Arquitectura</span></div>
         <div class="team-socials">
           <a href="#" title="GitHub">⌥</a>
           <a href="#" title="LinkedIn">in</a>
         </div>
       </div>
-
       <div class="team-card" data-aos="fade-up" data-aos-delay="200">
         <div class="team-avatar-wrap">
           <div class="team-avatar purple">DV</div>
@@ -576,15 +561,12 @@
         <h4>Daniel Fernando Vargas Sarmiento</h4>
         <span class="team-role">Artificial Intelligence Engineer</span>
         <p>Investigación e integración de soluciones basadas en IA. Conceptualizó el Mentor IA y los sistemas de recomendación inteligente.</p>
-        <div class="team-skills">
-          <span>Python</span><span>ML</span><span>NLP</span>
-        </div>
+        <div class="team-skills"><span>Python</span><span>ML</span><span>NLP</span></div>
         <div class="team-socials">
           <a href="#" title="GitHub">⌥</a>
           <a href="#" title="LinkedIn">in</a>
         </div>
       </div>
-
       <div class="team-card" data-aos="fade-up" data-aos-delay="300">
         <div class="team-avatar-wrap">
           <div class="team-avatar green">MR</div>
@@ -593,15 +575,12 @@
         <h4>Mario Alberto Rojas</h4>
         <span class="team-role">Game Environment Designer</span>
         <p>Especialista en diseño de entornos virtuales. Lideró la construcción del campus en Roblox optimizando interacción y espacios educativos.</p>
-        <div class="team-skills">
-          <span>Roblox Studio</span><span>3D</span><span>Lua</span>
-        </div>
+        <div class="team-skills"><span>Roblox Studio</span><span>3D</span><span>Lua</span></div>
         <div class="team-socials">
           <a href="#" title="GitHub">⌥</a>
           <a href="#" title="LinkedIn">in</a>
         </div>
       </div>
-
       <div class="team-card" data-aos="fade-up" data-aos-delay="400">
         <div class="team-avatar-wrap">
           <div class="team-avatar orange">SM</div>
@@ -610,15 +589,12 @@
         <h4>Santiago Mendoza Barona</h4>
         <span class="team-role">Data Analytics &amp; Innovation Specialist</span>
         <p>Diseño de métricas, visualización de datos y análisis de comportamiento. Convierte datos en estrategia para mejorar la experiencia educativa.</p>
-        <div class="team-skills">
-          <span>Python</span><span>D3.js</span><span>Analytics</span>
-        </div>
+        <div class="team-skills"><span>Python</span><span>D3.js</span><span>Analytics</span></div>
         <div class="team-socials">
           <a href="#" title="GitHub">⌥</a>
           <a href="#" title="LinkedIn">in</a>
         </div>
       </div>
-
     </div>
   </div>
 </section>
@@ -639,10 +615,12 @@
           <span>Roblox Studio</span>
           <span>Three.js</span>
           <span>JavaScript</span>
+          <span>TypeScript</span>
           <span>HTML5</span>
           <span>CSS3</span>
           <span>GSAP</span>
           <span>IA Generativa</span>
+          <span>Spline</span>
           <span>Particles.js</span>
         </div>
       </div>
